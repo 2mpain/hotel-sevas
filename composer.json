@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2.7",
+        "bezhansalleh/filament-language-switch": "^3.0",
         "filament/filament": "^3.2",
         "filament/support": "*",
         "filament/upgrade": "^3.2",

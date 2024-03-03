@@ -76,7 +76,8 @@ class HotelRoomTypeResource extends Resource
                         'economy' => 'gray',
                         'standart' => 'primary',
                         'luxury' => 'success',
-                        'family' => 'info'
+                        'family' => 'info',
+                        default => 'gray'
                     })
                     ->label('Тип'),
                 Tables\Columns\TextColumn::make('description')

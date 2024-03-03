@@ -26,12 +26,13 @@ class HotelRoomTypesSeeder extends Seeder
         ];
     }
 
-    private function createRoom(string $type, string $description, int $price): array
+    private function createRoom(string $type, string $description, int $price, string $image=''): array
     {
         return [
             'type' => $type,
             'description' => $description,
             'price' => $price,
+            'image' => $image,
         ];
     }
 }

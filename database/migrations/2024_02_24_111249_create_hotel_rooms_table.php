@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('type')->unique();
             $table->text('description')->max(256)->nullable();
             $table->decimal('price', 8, 2)->unsigned();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

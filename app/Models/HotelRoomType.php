@@ -11,5 +11,6 @@ class HotelRoomType extends Model
         "type",
         "description",
         "price",
+        "image"
     ];
 }

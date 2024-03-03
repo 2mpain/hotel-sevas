@@ -3,15 +3,12 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\HotelRoomTypeResource\Pages;
-use App\Filament\Admin\Resources\HotelRoomTypeResource\RelationManagers;
 use App\Models\HotelRoomType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class HotelRoomTypeResource extends Resource
 {
@@ -28,19 +25,42 @@ class HotelRoomTypeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->placeholder('Новый тип'),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->step(100)
-                    ->placeholder(3500),
-                Forms\Components\Textarea::make('description')
-                    ->autosize()
-                    ->minLength(12)
-                    ->maxLength(256)
-                    ->placeholder('Описание для номера ...'),
+                Forms\Components\Section::make('Основная информация')
+                    ->schema([
+                        Forms\Components\TextInput::make('type')
+                            ->label('Тип номера')
+                            ->required()
+                            ->placeholder('Новый тип'),
+                        Forms\Components\TextInput::make('price')
+                            ->label('Стоимость')
+                            ->required()
+                            ->numeric()
+                            ->step(100)
+                            ->placeholder(3500),
+
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Описание номера отеля')
+                    ->schema([
+                        Forms\Components\Textarea::make('description')
+                            ->label('Описание')
+                            ->autosize()
+                            ->minLength(12)
+                            ->maxLength(700)
+                            ->placeholder('Описание для номера ...'),
+
+                    ])->columns(1),
+
+                Forms\Components\Section::make('Фото номера')
+                    ->schema([
+                        Forms\Components\FileUpload::make('image')
+                            ->uploadingMessage('Загружаем фото лучшего номера...')
+                            ->image()
+                            ->label('Фото')
+                            ->imageEditor(),
+
+                    ])->columns(1),
+
             ]);
     }
 
@@ -60,14 +80,18 @@ class HotelRoomTypeResource extends Resource
                     })
                     ->label('Тип'),
                 Tables\Columns\TextColumn::make('description')
-                ->searchable()
-                ->limit(50)
-                ->label('Описание'),
+                    ->searchable()
+                    ->limit(50)
+                    ->label('Описание'),
                 Tables\Columns\TextColumn::make('price')
-                ->searchable()
-                ->money('RUB')
-                ->sortable()
-                ->label('Цена'),
+                    ->searchable()
+                    ->money('RUB')
+                    ->sortable()
+                    ->label('Цена'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->size(70)
+                    ->label('Фото')
+                    ->circular(),
             ])
             ->filters([
                 //

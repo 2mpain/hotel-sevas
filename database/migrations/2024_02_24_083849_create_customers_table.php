@@ -13,18 +13,14 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('middle_name')->nullable();
-            $table->enum('gender', ['male', 'female', 'none'])->default('none');
+            //$table->enum('gender', ['male', 'female', 'none'])->default('none');
             $table->string('email')->unique();
             $table->string('phoneNumber')->unique()->max(12);
             $table->enum('status', ['left_a_request', 'active', 'inactive'])->default('left_a_request');
             $table->timestamps();
-            $table->string('password')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('username')->references('username')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

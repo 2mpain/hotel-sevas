@@ -81,10 +81,12 @@ class HotelRoomTypeResource extends Resource
                     })
                     ->label('Тип'),
                 Tables\Columns\TextColumn::make('description')
+                    ->icon('heroicon-m-document-text')
                     ->searchable()
                     ->limit(50)
                     ->label('Описание'),
                 Tables\Columns\TextColumn::make('price')
+                    ->icon('heroicon-m-banknotes')
                     ->searchable()
                     ->money('RUB')
                     ->sortable()

@@ -73,10 +73,10 @@ class HotelRoomTypeResource extends Resource
                     ->sortable()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
-                        'economy' => 'gray',
-                        'standart' => 'primary',
-                        'luxury' => 'success',
-                        'family' => 'info',
+                        'Эконом' => 'gray',
+                        'Стандарт' => 'primary',
+                        'Люкс' => 'success',
+                        'Семейный' => 'info',
                         default => 'gray'
                     })
                     ->label('Тип'),

@@ -29,22 +29,29 @@ class CustomerResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Основная информация')
-                    ->description('Заполните основные данные пользователя. Поле Отчество является необязательным к заполнению.')
+                    ->description('Основные данные пользователя. Поле Отчество является необязательным к заполнению.')
                     ->schema([
                         Forms\Components\TextInput::make('last_name')->label('Фамилия')->required(),
                         Forms\Components\TextInput::make('first_name')->label('Имя')->required(),
                         Forms\Components\TextInput::make('middle_name')->label('Отчество'),
-                    ])->columns(3),
+                        Forms\Components\Select::make('gender')
+                            ->label('Пол')
+                            ->options([
+                                'male' => 'Мужской',
+                                'female' => 'Женский',
+                                'none' => 'Н/Д',
+                            ]),
+                    ])->columns(2),
 
                 Forms\Components\Section::make('Контактная информация')
-                    ->description('Заполните адрес электронной почты и контактный номер клиента.')
+                    ->description('Адрес электронной почты и контактный номер клиента.')
                     ->schema([
                         Forms\Components\TextInput::make('email')->email()->required()->label('Эл.почта'),
                         Forms\Components\TextInput::make('phoneNumber')->tel()->required()->label('Номер телефона'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Статус клиента')
-                    ->description('Выберите текущий статус клиента.')
+                    ->description('Текущий статус клиента.')
                     ->schema([
                         Forms\Components\Select::make('status')
                             ->required()
@@ -63,7 +70,7 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('username')->label('Логин на сайте'),
                         Forms\Components\TextInput::make('password')->password()->label('Пароль'),
 
-                    ])->columns(3),
+                    ])->columns(2),
             ]);
     }
 
@@ -85,6 +92,9 @@ class CustomerResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Отчество'),
+                Tables\Columns\TextColumn::make('gender')
+                    ->sortable()
+                    ->label('Пол'),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->label('Эл.почта'),

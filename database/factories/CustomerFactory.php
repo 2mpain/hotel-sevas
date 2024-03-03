@@ -27,6 +27,7 @@ class CustomerFactory extends Factory
             'first_name' => $faker->firstName(),
             'last_name' => $faker->lastName(),
             'middle_name' => $faker->middleName(),
+            'gender' => fake()->randomElement(['male', 'female', 'none']),
             'email' => fake()->unique()->safeEmail(),
             'phoneNumber' => '+7978' . fake()->unique()->numerify('#######'),
             'status' => fake()->randomElement(['left_a_request', 'active', 'inactive']),

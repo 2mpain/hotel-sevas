@@ -48,7 +48,7 @@ class HotelRoomTypeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
+                //Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
                 Tables\Columns\TextColumn::make('type')
                     ->sortable()
                     ->badge()
@@ -59,8 +59,15 @@ class HotelRoomTypeResource extends Resource
                         'family' => 'info'
                     })
                     ->label('Тип'),
-                Tables\Columns\TextColumn::make('description')->limit(50)->label('Описание'),
-                Tables\Columns\TextColumn::make('price')->money('RUB')->sortable()->label('Цена'),
+                Tables\Columns\TextColumn::make('description')
+                ->searchable()
+                ->limit(50)
+                ->label('Описание'),
+                Tables\Columns\TextColumn::make('price')
+                ->searchable()
+                ->money('RUB')
+                ->sortable()
+                ->label('Цена'),
             ])
             ->filters([
                 //

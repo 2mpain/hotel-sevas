@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
 use Filament\Facades\Filament;
+use App\Http\Controllers\CustomersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::post('/customers', [CustomersController::class, 'store']);
 
 
 // Route::get('/dashboard', function () {

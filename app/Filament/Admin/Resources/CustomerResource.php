@@ -25,7 +25,7 @@ class CustomerResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Основная информация')
-                    ->description('Основные данные пользователя. Поле Отчество является необязательным к заполнению.')
+                    ->description('Основные данные клиента. Поле Отчество является необязательным к заполнению.')
                     ->schema([
                         Forms\Components\TextInput::make('last_name')->label('Фамилия')->required(),
                         Forms\Components\TextInput::make('first_name')->label('Имя')->required(),
@@ -37,7 +37,7 @@ class CustomerResource extends Resource
                         //         'female' => 'Женский',
                         //         'none' => 'Н/Д',
                         //     ]),
-                    ])->columns(1),
+                    ])->columns(3),
 
                 Forms\Components\Section::make('Контактная информация')
                     ->description('Адрес электронной почты и контактный номер клиента.')

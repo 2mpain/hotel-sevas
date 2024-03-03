@@ -7,107 +7,189 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogClose,
 } from "@/Components/readyToUse/dialog";
 import { Input } from "@/Components/readyToUse/input";
 import { Label } from "@/Components/readyToUse/label";
+import { router } from "@inertiajs/react";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/Components/readyToUse/form";
 
 export function CustomDialog() {
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button
-                    className="my-5 border-black text-black bg-white hover:bg-black hover:text-white"
-                    variant="outline"
-                >
-                    Забронировать
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>Бронь номера</DialogTitle>
-                    <DialogDescription>
-                        Заполните свои контактные данные и нажмите на кнопку
-                        "Отправить".
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="first_name" className="text-right">
-                            Ваше имя
-                        </Label>
-                        <Input
-                            type="text"
-                            id="name"
-                            placeholder="Иван"
-                            className="col-span-3"
-                            minLength={2}
-                            maxLength={18}
-                        />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="last_name" className="text-right">
-                            Фамилия
-                        </Label>
-                        <Input
-                            type="text"
-                            id="name"
-                            placeholder="Иванов"
-                            className="col-span-3"
-                            minLength={2}
-                            maxLength={24}
-                            required
-                        />
-                    </div>
+    const phoneRegex = new RegExp(
+        /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+    );
 
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="middle_name" className="text-right">
-                            Отчество
-                        </Label>
-                        <Input
-                            type="text"
-                            id="name"
-                            placeholder="Иванович"
-                            className="col-span-3"
-                            minLength={5}
-                            maxLength={24}
-                            required
+    const formSchema = z.object({
+        first_name: z.string().min(2, {
+            message: "Имя должно быть не менее 2 букв.",
+        }),
+        last_name: z.string().min(3, {
+            message: "Фамилия должна быть не менее 3 букв.",
+        }),
+        middle_name: z.string().min(5, {
+            message: "Отчество должна быть не менее 5 букв.",
+        }),
+        email: z
+            .string()
+            .min(1, { message: "Поле email должно быть заполнено." })
+            .email("E-mail введён некорректно"),
+        phoneNumber: z.string().regex(phoneRegex, "Номер введён некорректно!"),
+    });
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            first_name: "",
+            last_name: "",
+            middle_name: "",
+            email: "",
+            phoneNumber: "",
+        },
+    });
+
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values);
+        router.post("/customers", form.getValues());
+    }
+
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button
+                            className="my-5 border-black text-black bg-white hover:bg-black hover:text-white"
+                            variant="outline"
+                        >
+                            Забронировать
+                        </Button>
+                    </DialogTrigger>
+
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Бронь номера</DialogTitle>
+                            <DialogDescription>
+                                Заполните свои контактные данные и нажмите на
+                                кнопку "Отправить".
+                            </DialogDescription>
+                        </DialogHeader>
+                        <FormField
+                            control={form.control}
+                            name="first_name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Имя</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Иван" {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Укажите Ваше имя.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="email" className="text-right">
-                            Эл. почта
-                        </Label>
-                        <Input
-                            type="email"
-                            id="email"
-                            placeholder="ivanov@gmail.com"
-                            className="col-span-3"
-                            required
+                        <FormField
+                            control={form.control}
+                            name="last_name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Фамилия</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Иванов"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="phoneNumber" className="text-right">
-                            Контактный номер
-                        </Label>
-                        <Input
-                            type="tel"
-                            id="tel"
-                            placeholder="+79787812345"
-                            className="col-span-3"
-                            required
+
+                        <FormField
+                            control={form.control}
+                            name="middle_name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Отчество</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Иванович"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
-                    </div>
-                </div>
-                <DialogFooter>
-                    <Button
-                        className="border-black text-black bg-white hover:bg-black hover:text-white"
-                        variant="outline"
-                        type="submit"
-                    >
-                        Отправить
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>E-mail</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="ivanov@gmail.com"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="phoneNumber"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Номер телефона</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="+79784335345"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <DialogFooter>
+                            <DialogDescription>
+                                Убедитесь в корректности заполненных данных и
+                                ожидайте обратной связи.
+                            </DialogDescription>
+
+<DialogClose asChild>
+    
+</DialogClose>
+                            <Button
+                                className="border-black text-black bg-white hover:bg-black hover:text-white"
+                                variant="outline"
+                                type="submit"
+                                onClick={form.handleSubmit(onSubmit)}
+                            >
+                                Отправить
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </form>
+        </Form>
     );
 }

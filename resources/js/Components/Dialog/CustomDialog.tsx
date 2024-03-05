@@ -32,20 +32,34 @@ export function CustomDialog() {
     );
 
     const formSchema = z.object({
-        first_name: z.string().min(2, {
-            message: "Имя должно быть не менее 2 букв.",
-        }),
-        last_name: z.string().min(3, {
-            message: "Фамилия должна быть не менее 3 букв.",
-        }),
-        middle_name: z.string().min(5, {
-            message: "Отчество должна быть не менее 5 букв.",
-        }),
+        first_name: z
+            .string()
+            .min(2, {
+                message: "Имя должно быть заполнено",
+            })
+            .max(20, {
+                message: "Убедитесь в правильности ввода Имени.",
+            }),
+        last_name: z
+            .string()
+            .min(3, {
+                message: "Фамилия должна быть не менее 3 букв.",
+            })
+            .max(20, {
+                message: "Убедитесь в правильности ввода Фамилии.",
+            }),
+        middle_name: z.string().optional(),
         email: z
             .string()
-            .min(1, { message: "Поле email должно быть заполнено." })
+            .min(1, { message: "Поле E-mail должно быть заполнено." })
             .email("E-mail введён некорректно"),
-        phoneNumber: z.string().regex(phoneRegex, "Номер введён некорректно!"),
+        phoneNumber: z
+            .string()
+            .min(12, { message: "Номер телефона введён некорректно." })
+            .max(12, { message: "Номер телефона введён некорректно." })
+            .refine((phone) => phoneRegex.test(phone), {
+                message: "Номер телефона введён некорректно.",
+            }),
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -63,6 +77,8 @@ export function CustomDialog() {
         console.log(values);
         router.post("/customers", form.getValues());
     }
+
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <Form {...form}>
@@ -92,7 +108,7 @@ export function CustomDialog() {
                                 <FormItem>
                                     <FormLabel>Имя</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Иван" {...field} />
+                                        <Input placeholder="Сурен" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Укажите Ваше имя.
@@ -109,7 +125,7 @@ export function CustomDialog() {
                                     <FormLabel>Фамилия</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Иванов"
+                                            placeholder="Аракелян"
                                             {...field}
                                         />
                                     </FormControl>
@@ -126,10 +142,14 @@ export function CustomDialog() {
                                     <FormLabel>Отчество</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Иванович"
+                                            placeholder="Свэгович"
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormDescription>
+                                        Пропустите данный пункт при отсутствии
+                                        Отчества.
+                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -147,6 +167,9 @@ export function CustomDialog() {
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormDescription>
+                                        Укажите Ваш основной электронный адрес.
+                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -175,9 +198,6 @@ export function CustomDialog() {
                                 ожидайте обратной связи.
                             </DialogDescription>
 
-<DialogClose asChild>
-    
-</DialogClose>
                             <Button
                                 className="border-black text-black bg-white hover:bg-black hover:text-white"
                                 variant="outline"

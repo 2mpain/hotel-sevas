@@ -26,7 +26,10 @@ import {
     FormMessage,
 } from "@/Components/readyToUse/form";
 
+
 export function CustomDialog() {
+
+    const [open, setOpen] = useState(false);
     const phoneRegex = new RegExp(
         /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
     );
@@ -43,7 +46,7 @@ export function CustomDialog() {
         last_name: z
             .string()
             .min(3, {
-                message: "Фамилия должна быть не менее 3 букв.",
+                message: "Фамилия должна быть заполнена.",
             })
             .max(20, {
                 message: "Убедитесь в правильности ввода Фамилии.",
@@ -75,25 +78,25 @@ export function CustomDialog() {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
+        setOpen(false);
         router.post("/customers", form.getValues());
     }
 
-    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button
-                            className="my-5 border-black text-black bg-white hover:bg-black hover:text-white"
-                            variant="outline"
-                        >
-                            Забронировать
-                        </Button>
-                    </DialogTrigger>
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                <Button
+                    className="my-5 border-black text-black bg-white hover:bg-black hover:text-white"
+                    variant="outline"
+                >
+                    Забронировать
+                </Button>
+            </DialogTrigger>
 
-                    <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <DialogHeader>
                             <DialogTitle>Бронь номера</DialogTitle>
                             <DialogDescription>
@@ -110,9 +113,6 @@ export function CustomDialog() {
                                     <FormControl>
                                         <Input placeholder="Сурен" {...field} />
                                     </FormControl>
-                                    <FormDescription>
-                                        Укажите Ваше имя.
-                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -146,10 +146,6 @@ export function CustomDialog() {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormDescription>
-                                        Пропустите данный пункт при отсутствии
-                                        Отчества.
-                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -167,9 +163,6 @@ export function CustomDialog() {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormDescription>
-                                        Укажите Ваш основной электронный адрес.
-                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -202,14 +195,15 @@ export function CustomDialog() {
                                 className="border-black text-black bg-white hover:bg-black hover:text-white"
                                 variant="outline"
                                 type="submit"
-                                onClick={form.handleSubmit(onSubmit)}
+                            ///onClick={form.handleSubmit(onSubmit)}
                             >
                                 Отправить
                             </Button>
                         </DialogFooter>
-                    </DialogContent>
-                </Dialog>
-            </form>
-        </Form>
+                    </form>
+                </Form>
+            </DialogContent>
+        </Dialog>
+
     );
 }

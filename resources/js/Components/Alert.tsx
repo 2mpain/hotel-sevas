@@ -1,6 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/Components/readyToUse/alert";
 import { Terminal } from "lucide-react";
-import { motion} from "framer-motion";
+import { motion } from "framer-motion";
 
 
 const exitAnimation = {
@@ -11,9 +11,11 @@ const exitAnimation = {
 
 interface AlertCompProps {
   show: boolean;
+  title: string,
+  description: string,
 }
 
-export function AlertComp({ show }: AlertCompProps) {
+export function AlertComp({ show, title="Отлично!", description }: AlertCompProps) {
   return (
     <motion.div
       initial="hidden"
@@ -24,8 +26,8 @@ export function AlertComp({ show }: AlertCompProps) {
     >
       <Alert>
         <Terminal className="h-4 w-4" />
-        <AlertTitle>Отлично!</AlertTitle>
-        <AlertDescription>Выберите дату заезда</AlertDescription>
+        <AlertTitle>{title}</AlertTitle>
+        <AlertDescription>{description}</AlertDescription>
       </Alert>
     </motion.div>
   );

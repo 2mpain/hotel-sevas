@@ -62,7 +62,7 @@ export function HeaderParagraph({
     </header>
 
      {/* showing Alert if user clicked on rent */}
-     {isShowAlert && <AlertComp show={isShowAlert} />}
+     {isShowAlert && <AlertComp show={isShowAlert} title={"Отлично!"} description={"Выберите дату заезда"} />}
      </>
   );
 }

@@ -17,7 +17,11 @@ import {
 import { Input } from "@/Components/readyToUse/input";
 import { Label } from "@/Components/readyToUse/label";
 
-export function Cards() {
+interface CardProps {
+    onSubmit: (form: any) => void;
+}
+
+export function Cards({ onSubmit }: CardProps) {
     const [showDialog, setShowDialog] = useState(false);
 
     return (
@@ -103,8 +107,9 @@ export function Cards() {
                                 ))}
                             </ul>
                         </div>
+
                         {/* dialog for ordering the hotel room */}
-                        <CustomDialog />
+                        <CustomDialog onFormSubmit={onSubmit} />
                     </div>
                 ))}
             </motion.div>

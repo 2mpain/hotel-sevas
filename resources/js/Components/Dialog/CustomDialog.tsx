@@ -7,11 +7,9 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    DialogClose,
 } from "@/Components/readyToUse/dialog";
 import { Input } from "@/Components/readyToUse/input";
-import { router } from "@inertiajs/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,22 +22,16 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/readyToUse/form";
-import { AlertComp } from "@/Components/Alert";
 
-export function CustomDialog() {
+interface CustomDialogProps {
+    onFormSubmit: (form: any) => void;
+}
+
+export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
     const [open, setOpen] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
     const phoneRegex = new RegExp(
         /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
     );
-
-    useEffect(() => {
-        if (showAlert) {
-            setTimeout(() => {
-                setShowAlert(false);
-            }, 3000);
-        }
-    }, [showAlert]);
 
     const formSchema = z.object({
         first_name: z
@@ -86,21 +78,12 @@ export function CustomDialog() {
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
         setOpen(false);
-        router.post("/customers", form.getValues());
-        setShowAlert(true);
+        onFormSubmit(form);
     }
 
     return (
         <>
-            
             <Dialog open={open} onOpenChange={setOpen}>
-            {showAlert && (
-                <AlertComp
-                    show={showAlert}
-                    title={"Отлично!"}
-                    description={"Ваша заявка отправлена."}
-                />
-            )}
                 <DialogTrigger asChild>
                     <Button
                         className="my-5 border-black text-black bg-white hover:bg-black hover:text-white"
@@ -217,7 +200,6 @@ export function CustomDialog() {
                                     className="border-black text-black bg-white hover:bg-black hover:text-white"
                                     variant="outline"
                                     type="submit"
-                                    ///onClick={form.handleSubmit(onSubmit)}
                                 >
                                     Отправить
                                 </Button>

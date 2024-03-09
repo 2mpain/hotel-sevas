@@ -66,12 +66,12 @@ export function Cards({ onSubmit }: CardProps) {
                             custom={index}
                             variants={
                                 index % 2 == 0
-                                    ? animate(0, -100)
-                                    : animate(0, 100)
+                                    ? animate(-100, 0)
+                                    : animate(100, 0)
                             }
                             className="title dark:text-white"
                         >
-                            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 shadow-sm">
+                            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight first:mt-0 shadow-sm">
                                 {card.title}
                             </h2>
                         </motion.div>

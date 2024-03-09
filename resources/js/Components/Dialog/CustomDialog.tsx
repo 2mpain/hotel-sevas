@@ -97,7 +97,7 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8"
+                            className="space-y-6"
                         >
                             <DialogHeader>
                                 <DialogTitle>Бронь номера</DialogTitle>

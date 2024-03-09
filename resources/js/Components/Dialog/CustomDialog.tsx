@@ -10,9 +10,8 @@ import {
     DialogClose,
 } from "@/Components/readyToUse/dialog";
 import { Input } from "@/Components/readyToUse/input";
-import { Label } from "@/Components/readyToUse/label";
 import { router } from "@inertiajs/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -25,11 +24,22 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/readyToUse/form";
+import { AlertComp } from "@/Components/Alert";
 
 export function CustomDialog() {
+    const [open, setOpen] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
     const phoneRegex = new RegExp(
         /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
     );
+
+    useEffect(() => {
+        if (showAlert) {
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+        }
+    }, [showAlert]);
 
     const formSchema = z.object({
         first_name: z
@@ -43,7 +53,7 @@ export function CustomDialog() {
         last_name: z
             .string()
             .min(3, {
-                message: "Фамилия должна быть не менее 3 букв.",
+                message: "Фамилия должна быть заполнена.",
             })
             .max(20, {
                 message: "Убедитесь в правильности ввода Фамилии.",
@@ -75,141 +85,147 @@ export function CustomDialog() {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
+        setOpen(false);
         router.post("/customers", form.getValues());
+        setShowAlert(true);
     }
 
-    const [isOpen, setIsOpen] = useState(false);
-
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button
-                            className="my-5 border-black text-black bg-white hover:bg-black hover:text-white"
-                            variant="outline"
+        <>
+            
+            <Dialog open={open} onOpenChange={setOpen}>
+            {showAlert && (
+                <AlertComp
+                    show={showAlert}
+                    title={"Отлично!"}
+                    description={"Ваша заявка отправлена."}
+                />
+            )}
+                <DialogTrigger asChild>
+                    <Button
+                        className="my-5 border-black text-black bg-white hover:bg-black hover:text-white"
+                        variant="outline"
+                    >
+                        Забронировать
+                    </Button>
+                </DialogTrigger>
+
+                <DialogContent className="sm:max-w-[425px]">
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-8"
                         >
-                            Забронировать
-                        </Button>
-                    </DialogTrigger>
+                            <DialogHeader>
+                                <DialogTitle>Бронь номера</DialogTitle>
+                                <DialogDescription>
+                                    Заполните свои контактные данные и нажмите
+                                    на кнопку "Отправить".
+                                </DialogDescription>
+                            </DialogHeader>
+                            <FormField
+                                control={form.control}
+                                name="first_name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Имя</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Сурен"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="last_name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Фамилия</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Аракелян"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                    <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>Бронь номера</DialogTitle>
-                            <DialogDescription>
-                                Заполните свои контактные данные и нажмите на
-                                кнопку "Отправить".
-                            </DialogDescription>
-                        </DialogHeader>
-                        <FormField
-                            control={form.control}
-                            name="first_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Имя</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Сурен" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Укажите Ваше имя.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="last_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Фамилия</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Аракелян"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="middle_name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Отчество</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Свэгович"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                        <FormField
-                            control={form.control}
-                            name="middle_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Отчество</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Свэгович"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Пропустите данный пункт при отсутствии
-                                        Отчества.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>E-mail</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="ivanov@gmail.com"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>E-mail</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="ivanov@gmail.com"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Укажите Ваш основной электронный адрес.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="phoneNumber"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Номер телефона</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="+79784335345"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                        <FormField
-                            control={form.control}
-                            name="phoneNumber"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Номер телефона</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="+79784335345"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <DialogFooter>
+                                <DialogDescription>
+                                    Убедитесь в корректности заполненных данных
+                                    и ожидайте обратной связи.
+                                </DialogDescription>
 
-                        <DialogFooter>
-                            <DialogDescription>
-                                Убедитесь в корректности заполненных данных и
-                                ожидайте обратной связи.
-                            </DialogDescription>
-
-                            <Button
-                                className="border-black text-black bg-white hover:bg-black hover:text-white"
-                                variant="outline"
-                                type="submit"
-                                onClick={form.handleSubmit(onSubmit)}
-                            >
-                                Отправить
-                            </Button>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
-            </form>
-        </Form>
+                                <Button
+                                    className="border-black text-black bg-white hover:bg-black hover:text-white"
+                                    variant="outline"
+                                    type="submit"
+                                    ///onClick={form.handleSubmit(onSubmit)}
+                                >
+                                    Отправить
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </Form>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 }

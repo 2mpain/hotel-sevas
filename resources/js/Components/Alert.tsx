@@ -4,6 +4,7 @@ import {
     AlertTitle,
 } from "@/Components/readyToUse/alert";
 import { Terminal } from "lucide-react";
+import { RocketIcon } from "@radix-ui/react-icons"
 import { motion } from "framer-motion";
 
 const exitAnimation = {
@@ -15,13 +16,13 @@ const exitAnimation = {
 interface AlertCompProps {
     show: boolean;
     title: string;
-    decsription: string;
+    description: string;
 }
 
 export function AlertComp({
     show,
     title = "Отлично!",
-    decsription,
+    description,
 }: AlertCompProps) {
     return (
         <motion.div
@@ -32,9 +33,9 @@ export function AlertComp({
             className="fixed bottom-4 left-4 z-10"
         >
             <Alert>
-                <Terminal className="h-4 w-4" />
+                <RocketIcon className="h-4 w-4" />
                 <AlertTitle>{title}</AlertTitle>
-                <AlertDescription>{decsription}</AlertDescription>
+                <AlertDescription>{description}</AlertDescription>
             </Alert>
         </motion.div>
     );

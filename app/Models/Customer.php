@@ -16,7 +16,12 @@ class Customer extends Model
         'email',
         'phoneNumber',
         'status',
-        'feedbacks_count'
+        'feedbacks_count',
+        'room_number'
     ];
 
+    public function room()
+    {
+        return $this->belongsTo(HotelRoom::class, 'room_number');
+    }
 }

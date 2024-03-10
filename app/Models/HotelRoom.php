@@ -14,7 +14,9 @@ class HotelRoom extends Model
         'floor',
         'square',
         'occupied',
-        'occupants'
+        'occupants',
+        'booker_name',
+        'customer_id'
     ];
 
     public function roomType()

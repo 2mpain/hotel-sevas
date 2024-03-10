@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('room_type_id')->constrained('hotel_room_types');
             $table->smallInteger('floor');
+            $table->smallInteger('room_number')->unique();
+            $table->string('booker_name')->nullable();
             $table->smallInteger('square');
             $table->boolean('occupied')->default(false);
             $table->integer('occupants')->default(0);

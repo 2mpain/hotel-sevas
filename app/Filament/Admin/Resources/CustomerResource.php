@@ -3,16 +3,12 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\CustomerResource\Pages;
-use App\Filament\Admin\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\DatePicker;
 
 class CustomerResource extends Resource
 {
@@ -29,19 +25,19 @@ class CustomerResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Основная информация')
-                    ->description('Основные данные пользователя. Поле Отчество является необязательным к заполнению.')
+                    ->description('Основные данные клиента. Поле Отчество является необязательным к заполнению.')
                     ->schema([
                         Forms\Components\TextInput::make('last_name')->label('Фамилия')->required(),
                         Forms\Components\TextInput::make('first_name')->label('Имя')->required(),
                         Forms\Components\TextInput::make('middle_name')->label('Отчество'),
-                        Forms\Components\Select::make('gender')
-                            ->label('Пол')
-                            ->options([
-                                'male' => 'Мужской',
-                                'female' => 'Женский',
-                                'none' => 'Н/Д',
-                            ]),
-                    ])->columns(2),
+                        // Forms\Components\Select::make('gender')
+                        //     ->label('Пол')
+                        //     ->options([
+                        //         'male' => 'Мужской',
+                        //         'female' => 'Женский',
+                        //         'none' => 'Н/Д',
+                        //     ]),
+                    ])->columns(3),
 
                 Forms\Components\Section::make('Контактная информация')
                     ->description('Адрес электронной почты и контактный номер клиента.')
@@ -63,14 +59,13 @@ class CustomerResource extends Resource
                             ]),
                     ])->columns(1),
 
+                // Forms\Components\Section::make('Аутентификация')
+                //     ->description('Заполните поле Логин и Пароль в том случае, если клиент является пользователем сайта.')
+                //     ->schema([
+                //         Forms\Components\TextInput::make('username')->label('Логин на сайте'),
+                //         Forms\Components\TextInput::make('password')->password()->label('Пароль'),
 
-                Forms\Components\Section::make('Аутентификация')
-                    ->description('Заполните поле Логин и Пароль в том случае, если клиент является пользователем сайта.')
-                    ->schema([
-                        Forms\Components\TextInput::make('username')->label('Логин на сайте'),
-                        Forms\Components\TextInput::make('password')->password()->label('Пароль'),
-
-                    ])->columns(2),
+                //     ])->columns(2),
             ]);
     }
 
@@ -78,7 +73,7 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
+                //Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
 
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable()
@@ -92,13 +87,15 @@ class CustomerResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Отчество'),
-                Tables\Columns\TextColumn::make('gender')
-                    ->sortable()
-                    ->label('Пол'),
+                // Tables\Columns\TextColumn::make('gender')
+                //     ->sortable()
+                //     ->label('Пол'),
                 Tables\Columns\TextColumn::make('email')
+                    ->icon('heroicon-m-envelope')
                     ->searchable()
                     ->label('Эл.почта'),
                 Tables\Columns\TextColumn::make('phoneNumber')
+                    ->icon('heroicon-m-phone')
                     ->searchable()
                     ->label('Номер телефона'),
                 Tables\Columns\TextColumn::make('status')
@@ -110,10 +107,10 @@ class CustomerResource extends Resource
                         'inactive' => 'danger',
                     })
                     ->label('Статус'),
-                Tables\Columns\TextColumn::make('username')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Логин на сайте'),
+                // Tables\Columns\TextColumn::make('username')
+                //     ->searchable()
+                //     ->sortable()
+                //     ->label('Логин на сайте'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()

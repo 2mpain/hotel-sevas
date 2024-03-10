@@ -11,11 +11,30 @@ import { CustomAccordion } from "@/Components/CustomAccordion";
 import MainHeader from "@/Components/Header/Header";
 import ContactUs from "@/Pages/MainPage/ContactUs/ContactUs";
 import { Head } from "@inertiajs/react";
+import { AlertComp } from "@/Components/Alert";
+import { useState, useEffect } from "react";
+import { z } from "zod";
+import { router } from "@inertiajs/react";
 
 export function MainPage() {
+    const [showAlert, setShowAlert] = useState(false);
+
+    const handleRoomBookingFormSubmit = (form: any) => {
+        router.post("/customers", form.getValues());
+        setShowAlert(true);
+    };
+
+    useEffect(() => {
+        if (showAlert) {
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+        }
+    }, [showAlert]);
+
     return (
         <>
-            <Head title="Главная"/>
+            <Head title="Главная" />
             <MainHeader />
             <motion.div
                 initial="hidden"
@@ -37,14 +56,22 @@ export function MainPage() {
                 <Stepper steps={steps} />
 
                 {/* hotel rooms cards */}
-                <Cards />
+                <Cards onSubmit={handleRoomBookingFormSubmit} />
 
                 {/* contact form */}
-                <ContactUs />
+                <ContactUs setShowAlert={setShowAlert}/>
 
                 {/* website footer */}
                 <Footer />
-                
+
+                {/* info alert */}
+                {showAlert && (
+                    <AlertComp
+                        show
+                        title="Успешно!"
+                        description="Ожидайте обратной связи."
+                    />
+                )}
             </motion.div>
         </>
     );

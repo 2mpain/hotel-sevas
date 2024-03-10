@@ -3,25 +3,20 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\UserResource\Pages;
-use App\Filament\Admin\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Select;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
     protected static ?string $navigationGroup = 'Сайт';
     protected static ?string $navigationLabel = 'Пользователи';
     protected static ?string $pluralModelLabel = 'Пользователи сайта';
-
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
@@ -29,7 +24,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Основная информация')
-                    ->description('Заполните основные данные пользователя')
+                    ->description('Основные данные пользователя')
                     ->schema([
                         Forms\Components\TextInput::make('name')->required()->label('Имя на сайте'),
                         Forms\Components\TextInput::make('username')->required()->label('Логин'),
@@ -37,15 +32,15 @@ class UserResource extends Resource
                     ])->columns(2),
 
                 Forms\Components\Section::make('Контактная информация')
+                    ->description('Поле Номер телефона необязательно.')
                     ->schema([
-                        //Forms\Components\TextInput::make('phoneNumber')->tel()->label('Номер телефона'),
                         Forms\Components\TextInput::make('email')->email()->required()->label('Эл.почта'),
+                        Forms\Components\TextInput::make('phoneNumber')->tel()->label('Номер телефона'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Аутентификация и роль')
-                    ->description('Заполните пароль и выберите роль пользователя на сайте.')
+                    ->description('Пароль и роль пользователя на сайте.')
                     ->schema([
-
                         Forms\Components\TextInput::make('password')
                             ->password()
                             ->required()
@@ -54,7 +49,7 @@ class UserResource extends Resource
                         Select::make('role')->required()->label('Роль')->options([
                             'admin' => 'Администратор',
                             'user' => 'Пользователь',
-                        ])
+                        ]),
                     ])->columns(2),
             ]);
     }
@@ -62,18 +57,30 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
+                //Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
+                    ->sortable()
                     ->label('Имя'),
                 Tables\Columns\TextColumn::make('username')
+                    ->icon('heroicon-m-user')
                     ->searchable()
+                    ->sortable()
                     ->label('Логин'),
-                //Tables\Columns\TextColumn::make('phoneNumber')->label('Номер телефона'),
+                Tables\Columns\TextColumn::make('phoneNumber')
+                    ->icon('heroicon-m-phone')
+                    ->label('Номер телефона'),
                 Tables\Columns\TextColumn::make('email')
+                    ->icon('heroicon-m-envelope')
                     ->searchable()
                     ->label('Эл.почта'),
                 Tables\Columns\TextColumn::make('role')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'admin' => 'info',
+                        'user' => 'success',
+                        default => 'gray'
+                    })
                     ->searchable()
                     ->label('Роль')
                     ->sortable(),
@@ -118,6 +125,5 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
-
 
 }

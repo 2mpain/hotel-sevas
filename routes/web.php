@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
 use Filament\Facades\Filament;
+use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\FeedbacksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,9 @@ Route::get('/', function () {
     ]);
 });
 
+Route::post('/customers', [CustomersController::class, 'store']);
+Route::post('/feedbacks', [FeedbacksController::class, 'store']);
+
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
@@ -38,4 +43,4 @@ Route::get('/', function () {
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-//require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';

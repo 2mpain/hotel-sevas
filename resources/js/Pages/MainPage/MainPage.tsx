@@ -59,7 +59,7 @@ export function MainPage() {
                 <Cards onSubmit={handleRoomBookingFormSubmit} />
 
                 {/* contact form */}
-                <ContactUs />
+                <ContactUs setShowAlert={setShowAlert}/>
 
                 {/* website footer */}
                 <Footer />

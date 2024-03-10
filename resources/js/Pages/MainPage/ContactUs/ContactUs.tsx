@@ -16,7 +16,12 @@ import { router } from "@inertiajs/react";
 import { Input } from "@/Components/readyToUse/input";
 import { Textarea } from "@/Components/readyToUse/textarea";
 
-const ContactUs: React.FC = () => {
+
+interface ContactUsProps{
+  setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ContactUs: React.FC<ContactUsProps> = ({ setShowAlert }) => {
     const formSchema = z.object({
         name: z
             .string()
@@ -47,8 +52,8 @@ const ContactUs: React.FC = () => {
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
         router.post("/feedbacks", form.getValues());
-        // setOpen(false);
-        // onFormSubmit(form);
+        form.reset();
+        setShowAlert(true);
     }
 
     return (

@@ -38,6 +38,10 @@ class FeedbacksController extends Controller
                 'customer_id' => $customerId,
             ]);
 
+            if ($customer) {
+                $customer->increment('feedbacks_count');
+            }
+
             return redirect()->back()->with('success');
         } catch (\Exception $e) {
             \Log::error($e);

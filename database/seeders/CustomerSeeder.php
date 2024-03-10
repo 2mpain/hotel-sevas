@@ -23,6 +23,7 @@ class CustomerSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'feedbacks_count' => 1
             ],
             [
                 'first_name' => 'Дэнчик',
@@ -33,6 +34,7 @@ class CustomerSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'feedbacks_count' => 1
             ],
             [
                 'first_name' => 'Мария',
@@ -43,6 +45,7 @@ class CustomerSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'feedbacks_count' => 1
             ],
         ]);
     }

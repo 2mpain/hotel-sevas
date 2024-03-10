@@ -32,7 +32,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps }) => {
   return (
     <div className="py-8">
      <Header title="Заезд в 3 шага!" id="steps"/>
-     <div className="flex-1 justify-center items-center">
+     <div className="flex-1 justify-center items-center mt-8">
       <motion.ol
         initial="hidden"
         whileInView="visible"

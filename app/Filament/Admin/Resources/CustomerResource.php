@@ -91,10 +91,12 @@ class CustomerResource extends Resource
                 //     ->sortable()
                 //     ->label('Пол'),
                 Tables\Columns\TextColumn::make('email')
+                    ->copyable()
                     ->icon('heroicon-m-envelope')
                     ->searchable()
                     ->label('Эл.почта'),
                 Tables\Columns\TextColumn::make('phoneNumber')
+                    ->copyable()
                     ->icon('heroicon-m-phone')
                     ->searchable()
                     ->label('Номер телефона'),

@@ -81,6 +81,7 @@ class HotelRoomTypeResource extends Resource
                     })
                     ->label('Тип'),
                 Tables\Columns\TextColumn::make('description')
+                    ->copyable()
                     ->icon('heroicon-m-document-text')
                     ->searchable()
                     ->limit(50)

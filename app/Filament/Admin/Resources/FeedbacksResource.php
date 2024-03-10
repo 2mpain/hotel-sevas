@@ -3,21 +3,21 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\FeedbacksResource\Pages;
-use App\Filament\Admin\Resources\FeedbacksResource\RelationManagers;
 use App\Models\Feedback;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FeedbacksResource extends Resource
 {
     protected static ?string $model = Feedback::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-oval-left-ellipsis';
+    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationLabel = 'Обратная связь';
+    protected static ?string $pluralModelLabel = 'Обратная связь';
+    protected static ?string $navigationGroup = 'Сайт';
 
     public static function form(Form $form): Form
     {
@@ -31,7 +31,28 @@ class FeedbacksResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->description(function (Feedback $record): string {
+                        return mb_strlen($record->message) > 80
+                        ? mb_substr($record->message, 0, 80) . '...'
+                        : $record->message;
+                    })
+                    ->icon('heroicon-m-user')
+                    ->limit(30)
+                    ->searchable()
+                    ->sortable()
+                    ->label('Отзыв'),
+                Tables\Columns\TextColumn::make('email')
+                    ->icon('heroicon-m-envelope')
+                    ->copyable()
+                    ->searchable()
+                    ->sortable()
+                    ->label('Эл.почта'),
+                Tables\Columns\TextColumn::make('customer_id')
+                ->url(fn () => '/admin/customers/' , true)
+                    ->searchable()
+                    ->sortable()
+                    ->label('ID Клиента'),
             ])
             ->filters([
                 //

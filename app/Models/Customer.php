@@ -16,6 +16,7 @@ class Customer extends Model
         'email',
         'phoneNumber',
         'status',
+        'feedbacks_count'
     ];
 
 }

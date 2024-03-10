@@ -9,14 +9,12 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/Components/readyToUse/form";
 import { z } from "zod";
 import { router } from "@inertiajs/react";
 import { Input } from "@/Components/readyToUse/input";
-import { Textarea } from "@/Components/readyToUse/textarea"
-
+import { Textarea } from "@/Components/readyToUse/textarea";
 
 const ContactUs: React.FC = () => {
     const formSchema = z.object({
@@ -58,12 +56,13 @@ const ContactUs: React.FC = () => {
             <Header title="Свяжитесь с нами" id="contactus" />
             <div className=" flex flex-col justify-center items-center">
                 <Form {...form}>
-                <FormDescription>Оставьте Ваш отзыв или коммерческое предложение</FormDescription>
+                    <FormDescription>
+                        Оставьте Ваш отзыв или коммерческое предложение
+                    </FormDescription>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="flex flex-col gap-4 mt-16 px-10 lg:mt-20 min-w-full lg:min-w-[500px]"
                     >
-                      
                         <FormField
                             control={form.control}
                             name="name"
@@ -94,38 +93,27 @@ const ContactUs: React.FC = () => {
                                 </FormItem>
                             )}
                         />
-                         <FormField
+                        <FormField
                             control={form.control}
                             name="message"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                      <Textarea 
-                                      {...field}
-                                      placeholder="Ваше сообщение ..."
-                                      className="min-h-[10em]"
-                                      />
-                                        {/* <Input
+                                        <Textarea
                                             {...field}
                                             placeholder="Ваше сообщение ..."
-                                        /> */}
+                                            className="min-h-[10em]"
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        {/* <textarea
-                            id="message"
-                            name="message"
-                            required
-                            maxLength={12334234}
-                            placeholder="Чем можем Вам помочь?"
-                            className="bg-gray-300 text-gray-900 outline-none border-2 border-white rounded-3xl px-8 py-6 min-h-[16em]"
-                        /> */}
                         <div className="text-center mt-10">
                             <Button
                                 className="px-8 py-2 border-black text-black bg-white hover:bg-black hover:text-white rounded-3xl"
                                 variant="outline"
+                                type="submit"
                             >
                                 Отправить
                             </Button>

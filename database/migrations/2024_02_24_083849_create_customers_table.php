@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phoneNumber', 12)->unique();
             $table->enum('status', ['left_a_request', 'active', 'inactive'])->default('left_a_request');
+            $table->unsignedInteger('feedbacksCount')->default(0);
             $table->timestamps();
         });
     }

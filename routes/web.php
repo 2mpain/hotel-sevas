@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\User;
 use Filament\Facades\Filament;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\FeedbacksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::get('/', function () {
 });
 
 Route::post('/customers', [CustomersController::class, 'store']);
+Route::post('/feedbacks', [FeedbacksController::class, 'store']);
 
 
 // Route::get('/dashboard', function () {

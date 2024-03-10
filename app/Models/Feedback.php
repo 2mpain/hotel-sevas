@@ -18,5 +18,6 @@ class Feedback extends Model
         'name',
         'email',
         'message',
+        'customer_id'
     ];
 }

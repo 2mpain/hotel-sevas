@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\FeedbacksResource\Pages;
 use App\Models\Feedback;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,9 +22,26 @@ class FeedbacksResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $customers = \App\Models\Customer::all()->pluck('email', 'id')->filter()->toArray();
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make('Основная информация отзыва')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')->label('Автор отзыва')->required(),
+                        Forms\Components\RichEditor::make('message')
+                            ->disableToolbarButtons([
+                                'codeBlock',
+                            ])
+                            ->label('Содержимое')
+                            ->required(),
+                    ])->columns(1),
+                Forms\Components\Section::make('Дополнительная информация отзыва')
+                    ->description('Укажите электронный адрес автора отзыва, если он является клиентом отеля.')
+                    ->schema([
+                            Forms\Components\Select::make('customer_id')
+                            ->options($customers)
+                            ->label('E-mail клиента'),
+                    ])->columns(1),
             ]);
     }
 
@@ -33,10 +51,12 @@ class FeedbacksResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->description(function (Feedback $record): string {
-                        return mb_strlen($record->message) > 80
-                        ? mb_substr($record->message, 0, 80) . '...'
-                        : $record->message;
+                        $message = strip_tags($record->message);
+                        return mb_strlen($message) > 80
+                        ? mb_substr($message, 0, 80) . '...'
+                        : $message;
                     })
+
                     ->icon('heroicon-m-user')
                     ->limit(30)
                     ->searchable()
@@ -49,9 +69,10 @@ class FeedbacksResource extends Resource
                     ->sortable()
                     ->label('Эл.почта'),
                 Tables\Columns\TextColumn::make('customer_id')
-                ->url(fn () => '/admin/customers/' , true)
+                    ->url(fn() => '/admin/customers/', true)
                     ->searchable()
                     ->sortable()
+                    ->icon('heroicon-m-identification')
                     ->label('ID Клиента'),
             ])
             ->filters([
@@ -59,6 +80,7 @@ class FeedbacksResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

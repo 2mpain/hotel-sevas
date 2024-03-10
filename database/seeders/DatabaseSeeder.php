@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Customer::factory(10)->create();
         
         $this->call(HotelRoomTypesSeeder::class);
+        $this->call(HotelRoomsSeeder::class);
 
         $this->call(FeedbackSeeder::class);
         \App\Models\Feedback::factory(10)->create();

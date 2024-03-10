@@ -13,4 +13,9 @@ class HotelRoomType extends Model
         "price",
         "image"
     ];
+
+    public function rooms()
+    {
+        return $this->hasMany(HotelRoom::class, 'room_type_id');
+    }
 }

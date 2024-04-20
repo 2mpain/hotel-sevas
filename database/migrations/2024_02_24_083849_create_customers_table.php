@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('first_name')->min(2)->max(20);
             $table->string('last_name')->min(3)->max(20);
             $table->string('middle_name')->nullable();
-            //$table->enum('gender', ['male', 'female', 'none'])->default('none');
             $table->string('email')->unique();
             $table->string('phoneNumber', 12)->unique();
             $table->enum('status', ['left_a_request', 'active', 'inactive'])->default('left_a_request');
             $table->unsignedInteger('feedbacks_count')->default(0);
+            $table->date('arrival_date');
+            $table->date('departure_date');
             $table->timestamps();
         });
     }

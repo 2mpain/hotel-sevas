@@ -30,13 +30,6 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('last_name')->label('Фамилия')->required(),
                         Forms\Components\TextInput::make('first_name')->label('Имя')->required(),
                         Forms\Components\TextInput::make('middle_name')->label('Отчество'),
-                        // Forms\Components\Select::make('gender')
-                        //     ->label('Пол')
-                        //     ->options([
-                        //         'male' => 'Мужской',
-                        //         'female' => 'Женский',
-                        //         'none' => 'Н/Д',
-                        //     ]),
                     ])->columns(3),
 
                 Forms\Components\Section::make('Контактная информация')
@@ -49,6 +42,7 @@ class CustomerResource extends Resource
                 Forms\Components\Section::make('Статус клиента')
                     ->description('Текущий статус клиента.')
                     ->schema([
+
                         Forms\Components\Select::make('status')
                             ->required()
                             ->label('Статус')
@@ -57,15 +51,28 @@ class CustomerResource extends Resource
                                 'active' => 'Проживает в отеле',
                                 'inactive' => 'Выселился',
                             ]),
+
+                        Forms\Components\Section::make('Даты проживания')
+                            ->description('Даты проживания клиента.')
+                            ->schema([
+                                Forms\Components\DatePicker::make('arrival_date')
+                                    ->required()
+                                    ->native(false)
+                                    ->displayFormat('d M Y')
+                                    ->seconds(false)
+                                    ->prefixIcon('heroicon-m-calendar')
+                                    ->label('Дата прибытия'),
+                                Forms\Components\DatePicker::make('departure_date')
+                                    ->required()
+                                    ->native(false)
+                                    ->displayFormat('d M Y')
+                                    ->seconds(false)
+                                    ->prefixIcon('heroicon-m-calendar')
+                                    ->label('Дата убытия'),
+
+                            ])->columns(2),
+
                     ])->columns(1),
-
-                // Forms\Components\Section::make('Аутентификация')
-                //     ->description('Заполните поле Логин и Пароль в том случае, если клиент является пользователем сайта.')
-                //     ->schema([
-                //         Forms\Components\TextInput::make('username')->label('Логин на сайте'),
-                //         Forms\Components\TextInput::make('password')->password()->label('Пароль'),
-
-                //     ])->columns(2),
             ]);
     }
 
@@ -73,8 +80,6 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                //Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
-
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable()
                     ->sortable()
@@ -86,10 +91,8 @@ class CustomerResource extends Resource
                 Tables\Columns\TextColumn::make('middle_name')
                     ->searchable()
                     ->sortable()
+                    ->default('-')
                     ->label('Отчество'),
-                // Tables\Columns\TextColumn::make('gender')
-                //     ->sortable()
-                //     ->label('Пол'),
                 Tables\Columns\TextColumn::make('email')
                     ->copyable()
                     ->icon('heroicon-m-envelope')
@@ -103,16 +106,22 @@ class CustomerResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->sortable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'left_a_request' => 'primary',
                         'active' => 'success',
                         'inactive' => 'danger',
                     })
                     ->label('Статус'),
-                // Tables\Columns\TextColumn::make('username')
-                //     ->searchable()
-                //     ->sortable()
-                //     ->label('Логин на сайте'),
+                Tables\Columns\TextColumn::make('arrival_date')
+                    ->icon('heroicon-m-calendar-days')
+                    ->label('Дата прибытия')
+                    ->dateTime('Y-m-d')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('departure_date')
+                    ->icon('heroicon-m-calendar-days')
+                    ->label('Дата отъезда')
+                    ->dateTime('Y-m-d')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()
@@ -130,7 +139,6 @@ class CustomerResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Просмотр'),
                 Tables\Actions\EditAction::make()->label('Редакт.'),
-                //Tables\Actions\DeleteAction::make()->label('Удалить'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

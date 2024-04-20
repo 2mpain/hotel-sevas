@@ -37,7 +37,6 @@ class HotelRoomTypeResource extends Resource
                             ->numeric()
                             ->step(100)
                             ->placeholder(3500),
-
                     ])->columns(2),
 
                 Forms\Components\Section::make('Описание номера отеля')
@@ -54,7 +53,7 @@ class HotelRoomTypeResource extends Resource
                 Forms\Components\Section::make('Фото номера')
                     ->schema([
                         Forms\Components\FileUpload::make('image')
-                            ->default(function($model){
+                            ->default(function ($model) {
                                 return $model->image ?? '';
                             })
                             ->uploadingMessage('Загружаем фото лучшего номера...')
@@ -64,7 +63,6 @@ class HotelRoomTypeResource extends Resource
                             ->imageEditor(),
 
                     ])->columns(1),
-
             ]);
     }
 
@@ -90,12 +88,6 @@ class HotelRoomTypeResource extends Resource
                         default => 'gray'
                     })
                     ->label('Тип'),
-                Tables\Columns\TextColumn::make('description')
-                    ->copyable()
-                    ->icon('heroicon-m-document-text')
-                    ->searchable()
-                    ->limit(50)
-                    ->label('Описание'),
                 Tables\Columns\TextColumn::make('price')
                     ->icon('heroicon-m-banknotes')
                     ->searchable()

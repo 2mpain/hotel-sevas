@@ -8,11 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/Components/readyToUse/dialog";
-import { Input } from "@/Components/readyToUse/input";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
     Form,
     FormControl,
@@ -22,6 +17,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/readyToUse/form";
+import { Input } from "@/Components/readyToUse/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 interface CustomDialogProps {
     onFormSubmit: (form: any) => void;
@@ -34,7 +34,7 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
     );
 
     const formSchema = z.object({
-        first_name: z
+        firstName: z
             .string()
             .min(2, {
                 message: "Имя должно быть заполнено",
@@ -42,7 +42,7 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
             .max(20, {
                 message: "Убедитесь в правильности ввода Имени.",
             }),
-        last_name: z
+        lastName: z
             .string()
             .min(3, {
                 message: "Фамилия должна быть заполнена.",
@@ -50,7 +50,7 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
             .max(20, {
                 message: "Убедитесь в правильности ввода Фамилии.",
             }),
-        middle_name: z.string().optional(),
+        middleName: z.string().optional(),
         email: z
             .string()
             .min(1, { message: "Поле E-mail должно быть заполнено." })
@@ -67,9 +67,9 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            first_name: "",
-            last_name: "",
-            middle_name: "",
+            firstName: "",
+            lastName: "",
+            middleName: "",
             email: "",
             phoneNumber: "",
         },
@@ -80,6 +80,34 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
         setOpen(false);
         onFormSubmit(form);
     }
+
+    const formFields = [
+        {
+            name: "firstName" as const,
+            label: "Имя",
+            placeholder: "Иван",
+        },
+        {
+            name: "lastName" as const,
+            label: "Фамилия",
+            placeholder: "Иванов",
+        },
+        {
+            name: "middleName" as const,
+            label: "Отчество",
+            placeholder: "Иванович",
+        },
+        {
+            name: "email" as const,
+            label: "E-mail",
+            placeholder: "ivanov@gmail.com",
+        },
+        {
+            name: "phoneNumber" as const,
+            label: "Номер телефона",
+            placeholder: "+79784335345",
+        },
+    ];
 
     return (
         <>
@@ -106,90 +134,27 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
                                     на кнопку "Отправить".
                                 </DialogDescription>
                             </DialogHeader>
-                            <FormField
-                                control={form.control}
-                                name="first_name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Имя</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Сурен"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="last_name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Фамилия</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Аракелян"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="middle_name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Отчество</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Свэгович"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>E-mail</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="ivanov@gmail.com"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="phoneNumber"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Номер телефона</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="+79784335345"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
+                            {formFields.map((field) => (
+                                <FormField
+                                    key={field.name}
+                                    control={form.control}
+                                    name={field.name}
+                                    render={({ field: renderProps }) => (
+                                        <FormItem>
+                                            <FormLabel>{field.label}</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder={
+                                                        field.placeholder
+                                                    }
+                                                    {...renderProps}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            ))}
                             <DialogFooter>
                                 <DialogDescription>
                                     Убедитесь в корректности заполненных данных

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Feedback;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +13,9 @@ class FeedbackSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('feedbacks')->insert([
+        $query = Feedback::query();
+
+        $query->insert([
             [
                 'name' => 'Станислав',
                 'message' => 'Очень понравилось в Вашем отеле. Спасибо!',
@@ -29,7 +32,7 @@ class FeedbackSeeder extends Seeder
             ],
             [
                 'name' => 'Мария',
-                'message' => 'В целом довольно, однако хотелось бы, чтобы почаще были какие-нибудь акции и скидки на различные праздники в течение года. А так, в целом, придраться не к чему. Все организовано на высоком уровне!',
+                'message' => 'В целом довольно неплохо, однако хотелось бы, чтобы почаще были какие-нибудь акции и скидки на различные праздники в течение года. А так, в целом, придраться не к чему. Все организовано на высоком уровне!',
                 'customer_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),

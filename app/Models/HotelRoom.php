@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class HotelRoom extends Model
 {
@@ -19,7 +20,10 @@ class HotelRoom extends Model
         'customer_id'
     ];
 
-    public function roomType()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function roomType(): BelongsTo
     {
         return $this->belongsTo(HotelRoomType::class, 'room_type_id');
     }

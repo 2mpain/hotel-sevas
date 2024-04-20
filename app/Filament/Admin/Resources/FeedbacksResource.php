@@ -17,35 +17,34 @@ class FeedbacksResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-oval-left-ellipsis';
     protected static ?int $navigationSort = 2;
     protected static ?string $navigationLabel = 'Обратная связь';
-    protected static ?string $pluralModelLabel = 'Обратная связь';
     protected static ?string $navigationGroup = 'Сайт';
-    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-oval-left-ellipsis';
-    protected static ?int $navigationSort = 2;
-    protected static ?string $navigationLabel = 'Обратная связь';
     protected static ?string $pluralModelLabel = 'Обратная связь';
-    protected static ?string $navigationGroup = 'Сайт';
 
     public static function form(Form $form): Form
     {
-        $customers = \App\Models\Customer::all()->pluck('email', 'id')->filter()->toArray();
         $customers = \App\Models\Customer::all()->pluck('email', 'id')->filter()->toArray();
         return $form
             ->schema([
                 Forms\Components\Section::make('Основная информация отзыва')
                     ->schema([
+
                         Forms\Components\TextInput::make('name')->label('Автор отзыва')->required(),
+
                         Forms\Components\RichEditor::make('message')
                             ->disableToolbarButtons([
                                 'codeBlock',
                             ])
                             ->label('Содержимое')
                             ->required(),
+
                         Forms\Components\DateTimePicker::make('created_at')
                             ->native(false)
                             ->displayFormat('d M Y, H:i')
                             ->seconds(false)
+                            ->prefixIcon('heroicon-m-calendar')
                             ->label('Дата публикации отзыва'),
                     ])->columns(1),
+
                 Forms\Components\Section::make('Дополнительная информация отзыва')
                     ->description('Укажите электронный адрес автора отзыва, если он является клиентом отеля.')
                     ->schema([
@@ -53,6 +52,7 @@ class FeedbacksResource extends Resource
                             ->options($customers)
                             ->label('E-mail клиента'),
                     ])->columns(1),
+
                 Forms\Components\Section::make('Фото отзыва')
                     ->schema([
                         Forms\Components\FileUpload::make('feedback_photo')
@@ -81,8 +81,8 @@ class FeedbacksResource extends Resource
                     ->description(function (Feedback $record): string {
                         $message = strip_tags($record->message);
                         return mb_strlen($message) > 80
-                            ? mb_substr($message, 0, 80) . '...'
-                            : $message;
+                        ? mb_substr($message, 0, 80) . '...'
+                        : $message;
                     })
 
                     ->icon('heroicon-m-user')
@@ -91,7 +91,7 @@ class FeedbacksResource extends Resource
                     ->sortable()
                     ->label('Отзыв'),
                 Tables\Columns\TextColumn::make('customer_id')
-                    ->url(fn () => '/admin/customers/', true)
+                    ->url(fn() => '/admin/customers/', true)
                     ->searchable()
                     ->sortable()
                     ->icon('heroicon-m-identification')

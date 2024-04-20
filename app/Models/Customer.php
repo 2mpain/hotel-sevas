@@ -18,7 +18,9 @@ class Customer extends Model
         'phoneNumber',
         'status',
         'feedbacks_count',
-        'room_number'
+        'room_number',
+        'arrival_date',
+        'departure_date'
     ];
 
     protected static function newFactory()

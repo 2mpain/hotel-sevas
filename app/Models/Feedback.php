@@ -16,8 +16,9 @@ class Feedback extends Model
 
     protected $fillable = [
         'name',
-        'email',
         'message',
-        'customer_id'
+        'feedback_photo',
+        'customer_id',
+        'created_at'
     ];
 }

@@ -42,11 +42,11 @@ class HotelRoomTypeResource extends Resource
 
                 Forms\Components\Section::make('Описание номера отеля')
                     ->schema([
-                        Forms\Components\Textarea::make('description')
+                        Forms\Components\RichEditor::make('description')
+                            ->disableToolbarButtons([
+                                'codeBlock',
+                            ])
                             ->label('Описание')
-                            ->autosize()
-                            ->minLength(12)
-                            ->maxLength(700)
                             ->placeholder('Описание для номера ...'),
 
                     ])->columns(1),
@@ -54,9 +54,13 @@ class HotelRoomTypeResource extends Resource
                 Forms\Components\Section::make('Фото номера')
                     ->schema([
                         Forms\Components\FileUpload::make('image')
+                            ->default(function($model){
+                                return $model->image ?? '';
+                            })
                             ->uploadingMessage('Загружаем фото лучшего номера...')
                             ->image()
                             ->label('Фото')
+                            ->previewable(true)
                             ->imageEditor(),
 
                     ])->columns(1),
@@ -68,11 +72,17 @@ class HotelRoomTypeResource extends Resource
     {
         return $table
             ->columns([
-                //Tables\Columns\TextColumn::make('id')->sortable()->label('id'),
                 Tables\Columns\TextColumn::make('type')
+                    ->searchable()
+                    ->description(function (HotelRoomType $record): string {
+                        $description = strip_tags($record->description);
+                        return mb_strlen($description) > 80
+                            ? mb_substr($description, 0, 80) . '...'
+                            : $description;
+                    })
                     ->sortable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'Эконом' => 'gray',
                         'Стандарт' => 'primary',
                         'Люкс' => 'success',
@@ -80,11 +90,6 @@ class HotelRoomTypeResource extends Resource
                         default => 'gray'
                     })
                     ->label('Тип'),
-                Tables\Columns\TextColumn::make('description')
-                    ->icon('heroicon-m-document-text')
-                    ->searchable()
-                    ->limit(50)
-                    ->label('Описание'),
                 Tables\Columns\TextColumn::make('price')
                     ->icon('heroicon-m-banknotes')
                     ->searchable()

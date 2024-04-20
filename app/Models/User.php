@@ -3,12 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Filament\Panel;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -25,7 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phoneNumber',
-        'role'
+        'role',
     ];
 
     /**
@@ -48,20 +48,29 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * @param Panel $panel
+     * @return bool
+     */
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasRole('admin');
     }
 
-
+    /**
+     * @param mixed $role
+     * @return bool
+     */
     public function hasRole($role): bool
     {
         return $this->roles->contains('name', $role);
     }
 
-    public function customer() : HasOne
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function customer(): HasOne
     {
         return $this->hasOne(Customer::class);
     }
-
 }

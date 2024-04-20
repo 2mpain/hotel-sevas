@@ -2,35 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\DTO\Customer\CustomerCreationDTO;
+use App\Http\Requests\Customers\CustomerCreateRequest;
+use App\Response\AbstractResponse;
+use App\Services\Customers\CustomerCreationService;
 
 class CustomersController extends Controller
 {
-    /**
-     * @param Request $request
-     * 
-     */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|min:2|max:20',
-            'last_name' => 'required|min:3|max:20',
-            'middle_name' => 'nullable|string',
-            'email' => 'required|email',
-            'phoneNumber' => 'required|string|min:12',
-        ]);
+    public function createCustomer(
+        CustomerCreateRequest $request,
+        CustomerCreationService $customerCreationService
+    ): AbstractResponse {
+        $request->validate();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
+        $dto = new CustomerCreationDTO(
+            $request->getFirstName(),
+            $request->getLastName(),
+            $request->getEmail(),
+            $request->getPhoneNumber(),
+            $request->getStatus(),
+            $request->getMiddleName(),
+            $request->getArrivalDate(),
+            $request->getDepartureDate()
+        );
 
-        try {
-            Customer::create($request->all());
-            return redirect()->back()->with('success');
-        } catch (\Exception $e) {
-            \Log::info($e);
-        }
+        $customer = $customerCreationService->create($dto);
+
+        return new AbstractResponse($customer, 200);
     }
 }

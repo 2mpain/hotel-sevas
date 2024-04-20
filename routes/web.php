@@ -26,5 +26,4 @@ Route::get('/', function () {
     ]);
 });
 
-Route::post('/customers', [CustomersController::class, 'store']);
 Route::post('/feedbacks', [FeedbacksController::class, 'store']);

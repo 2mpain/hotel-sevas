@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CustomerSeeder extends Seeder
 {
@@ -13,7 +13,8 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('customers')->insert([
+        $query = Customer::query();
+        $query->insert([
             [
                 'first_name' => 'Станислав',
                 'last_name' => 'Азимов',
@@ -54,6 +55,5 @@ class CustomerSeeder extends Seeder
                 'feedbacks_count' => 1,
             ],
         ]);
-
     }
 }

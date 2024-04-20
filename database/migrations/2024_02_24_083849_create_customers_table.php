@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('phoneNumber', 12)->unique();
             $table->enum('status', ['left_a_request', 'active', 'inactive'])->default('left_a_request');
             $table->unsignedInteger('feedbacks_count')->default(0);
-            $table->date('arrival_date');
-            $table->date('departure_date');
+            $table->date('arrival_date')->nullable();
+            $table->date('departure_date')->nullable();
             $table->timestamps();
         });
     }

@@ -9,9 +9,6 @@ class Feedback extends Model
 {
     use HasFactory;
 
-    /**
-     * @var string
-     */
     public $table = 'feedbacks';
 
     protected $fillable = [
@@ -19,6 +16,6 @@ class Feedback extends Model
         'message',
         'feedback_photo',
         'customer_id',
-        'created_at'
+        'created_at',
     ];
 }

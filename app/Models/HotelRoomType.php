@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class HotelRoomType extends Model
 {
@@ -14,7 +14,10 @@ class HotelRoomType extends Model
         "image"
     ];
 
-    public function rooms()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rooms(): HasMany
     {
         return $this->hasMany(HotelRoom::class, 'room_type_id');
     }

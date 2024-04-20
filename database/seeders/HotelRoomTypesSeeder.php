@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use DB;
+use App\Models\HotelRoomType;
 use Illuminate\Database\Seeder;
 
 class HotelRoomTypesSeeder extends Seeder
@@ -13,21 +13,25 @@ class HotelRoomTypesSeeder extends Seeder
     public function run(): void
     {
         $rooms = $this->generateRooms();
-        DB::table('hotel_room_types')->insert($rooms);
+        $query = HotelRoomType::query();
+        $query->insert($rooms);
     }
 
     private $RO0M_IMAGE_LINKS = [
         'Эконом' =>
-            'https://www.palladaran.ru/uploads/images/ekonom-nomer.jpg',
+        'https://www.palladaran.ru/uploads/images/ekonom-nomer.jpg',
         'Стандарт' =>
-            'https://hotelnogai.ru/wp-content/uploads/2016/02/%D0%A1%D1%82%D0%B0%D0%BD%D0%B4_%D0%9A%D0%B8%D0%BD%D0%B3_1-1620x1080.jpg',
+        'https://hotelnogai.ru/wp-content/uploads/2016/02/%D0%A1%D1%82%D0%B0%D0%BD%D0%B4_%D0%9A%D0%B8%D0%BD%D0%B3_1-1620x1080.jpg',
         'Люкс' =>
-            'https://standarthotel.com/upload/resize_cache/iblock/f50/992_600_2/f5012a39efa74a5aa17ab74146f766f6.jpg',
+        'https://standarthotel.com/upload/resize_cache/iblock/f50/992_600_2/f5012a39efa74a5aa17ab74146f766f6.jpg',
         'Семейный' =>
-            'https://trefenhotel.ru/upload/blog/Family_hotel_2.jpg',
+        'https://trefenhotel.ru/upload/blog/Family_hotel_2.jpg',
 
     ];
 
+    /**
+     * @return array
+     */
     private function generateRooms(): array
     {
         return [
@@ -78,8 +82,19 @@ class HotelRoomTypesSeeder extends Seeder
         ];
     }
 
-    private function createRoom(string $type, string $description, int $price, string $image = ''): array
-    {
+    /**
+     * @param string $type
+     * @param string $description
+     * @param int $price
+     * @param string $image = ''
+     * @return array
+     */
+    private function createRoom(
+        string $type,
+        string $description,
+        int $price,
+        string $image = ''
+    ): array {
         return [
             'type' => $type,
             'description' => $description,

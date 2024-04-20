@@ -26,14 +26,14 @@ class CustomersCRUDRepository implements CRUDRepositoryInterface
     #[\Override] public function create(AbstractDTO $DTO): void
     {
         $customerModel = new Customer([
-            'first_name' => $DTO->getFirstName(),
-            'last_name' => $DTO->getLastName(),
-            'email' => $DTO->getEmail(),
-            'phoneNumber' => $DTO->getPhoneNumber(),
-            'middle_name' => $DTO->getMiddleName(),
-            'arrival_date' => $DTO->getArrivalDate(),
+            'first_name'     => $DTO->getFirstName(),
+            'last_name'      => $DTO->getLastName(),
+            'email'          => $DTO->getEmail(),
+            'phoneNumber'    => $DTO->getPhoneNumber(),
+            'middle_name'    => $DTO->getMiddleName(),
+            'arrival_date'   => $DTO->getArrivalDate(),
             'departure_date' => $DTO->getDepartureDate(),
-            'status' => $DTO->getStatus(),
+            'status'         => $DTO->getStatus(),
         ]);
 
         $customerModel->saveOrFail();

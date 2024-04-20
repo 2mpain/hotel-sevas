@@ -28,6 +28,6 @@ class CustomersController extends Controller
 
         $customer = $customerCreationService->create($dto);
 
-        return new AbstractResponse($customer, 200);
+        return new AbstractResponse([$customer], 200);
     }
 }

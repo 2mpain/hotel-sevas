@@ -4,6 +4,7 @@ namespace App\Infrastructure\Hydrators;
 
 use App\DTO\Customer\CustomerDTO;
 use App\Infrastructure\Hydrators\AbstractHydrator;
+use Carbon\Carbon;
 
 class CustomerDTOHydrator extends AbstractHydrator
 {
@@ -15,9 +16,18 @@ class CustomerDTOHydrator extends AbstractHydrator
             $customer->getEmail(),
             $customer->getPhoneNumber(),
             $customer->getMiddleName(),
-            $customer->getArrivalDate(),
-            $customer->getDepartureDate(),
+            $this->formatDate($customer->getArrivalDate()),
+            $this->formatDate($customer->getDepartureDate()),
             $customer->getStatus()
         );
+    }
+
+    private function formatDate(?string $date): ?string
+    {
+        if (!$date) {
+            return null;
+        }
+
+        return Carbon::parse($date)->isoFormat('D MMMM YYYY');
     }
 }

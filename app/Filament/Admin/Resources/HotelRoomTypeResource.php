@@ -90,6 +90,12 @@ class HotelRoomTypeResource extends Resource
                         default => 'gray'
                     })
                     ->label('Тип'),
+                Tables\Columns\TextColumn::make('description')
+                    ->copyable()
+                    ->icon('heroicon-m-document-text')
+                    ->searchable()
+                    ->limit(50)
+                    ->label('Описание'),
                 Tables\Columns\TextColumn::make('price')
                     ->icon('heroicon-m-banknotes')
                     ->searchable()

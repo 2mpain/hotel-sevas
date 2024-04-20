@@ -17,7 +17,6 @@ class CustomerFactory extends Factory
      * @return array<string, mixed>
      */
 
-    protected static ?string $password;
     public function definition(): array
     {
         $faker = FakerFactory::create('ru_RU');

@@ -19,9 +19,15 @@ class FeedbacksResource extends Resource
     protected static ?string $navigationLabel = 'Обратная связь';
     protected static ?string $pluralModelLabel = 'Обратная связь';
     protected static ?string $navigationGroup = 'Сайт';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-oval-left-ellipsis';
+    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationLabel = 'Обратная связь';
+    protected static ?string $pluralModelLabel = 'Обратная связь';
+    protected static ?string $navigationGroup = 'Сайт';
 
     public static function form(Form $form): Form
     {
+        $customers = \App\Models\Customer::all()->pluck('email', 'id')->filter()->toArray();
         $customers = \App\Models\Customer::all()->pluck('email', 'id')->filter()->toArray();
         return $form
             ->schema([
@@ -103,6 +109,7 @@ class FeedbacksResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -17,7 +17,8 @@ class Customer extends Model
         'email',
         'phoneNumber',
         'status',
-        'feedbacks_count'
+        'feedbacks_count',
+        'room_number'
     ];
 
     protected static function newFactory()
@@ -25,4 +26,8 @@ class Customer extends Model
         return new CustomerFactory();
     }
 
+    public function room()
+    {
+        return $this->belongsTo(HotelRoom::class, 'room_number');
+    }
 }

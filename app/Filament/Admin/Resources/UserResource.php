@@ -15,6 +15,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $navigationGroup = 'Сайт';
+    protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Пользователи';
     protected static ?string $pluralModelLabel = 'Пользователи сайта';
     protected static ?string $navigationIcon = 'heroicon-o-users';
@@ -63,14 +64,17 @@ class UserResource extends Resource
                     ->sortable()
                     ->label('Имя'),
                 Tables\Columns\TextColumn::make('username')
+                    ->copyable()
                     ->icon('heroicon-m-user')
                     ->searchable()
                     ->sortable()
                     ->label('Логин'),
                 Tables\Columns\TextColumn::make('phoneNumber')
+                    ->copyable()
                     ->icon('heroicon-m-phone')
                     ->label('Номер телефона'),
                 Tables\Columns\TextColumn::make('email')
+                    ->copyable()
                     ->icon('heroicon-m-envelope')
                     ->searchable()
                     ->label('Эл.почта'),

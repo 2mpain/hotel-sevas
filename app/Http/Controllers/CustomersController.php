@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\DTO\Customer\CustomerCreationDTO;
 use App\Http\Requests\Customers\CustomerCreateRequest;
+use App\Http\Requests\Customers\CustomersSearchRequest;
 use App\Response\AbstractResponse;
 use App\Services\Customers\CustomerCreationService;
 use App\Services\Customers\CustomersGettingService;
 
 class CustomersController extends Controller
 {
-    public function __construct(private CustomersGettingService $customersGettingService) {
+    public function __construct(private CustomersGettingService $customersGettingService)
+    {
     }
 
     /**
@@ -43,9 +45,12 @@ class CustomersController extends Controller
     /**
      * @return AbstractResponse
      */
-    public function getCustomers(): AbstractResponse
+    public function getCustomers(CustomersSearchRequest $request): AbstractResponse
     {
-        $customers = $this->customersGettingService->getCustomers();
+        $request->validate();
+
+        $customers = $this->customersGettingService
+            ->getCustomers($request->toArray());
 
         return new AbstractResponse($customers, 200);
     }

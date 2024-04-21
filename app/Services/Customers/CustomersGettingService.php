@@ -11,9 +11,9 @@ class CustomersGettingService
     ) {
     }
 
-    public function getCustomers(): array
+    public function getCustomers(array $filters = []): array
     {
-        $customers = $this->customersRepository->getCustomers();
+        $customers = $this->customersRepository->getCustomers($filters);
 
         return $customers;
     }

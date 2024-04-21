@@ -2,20 +2,19 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use DB;
 
-
-class UsersTableSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-
+        $query = User::query();
+        $query->insert([
             [
                 'name' => 'Admin',
                 'username' => 'admin',
@@ -33,7 +32,8 @@ class UsersTableSeeder extends Seeder
                 'password' => Hash::make('123'),
                 'role' => 'user',
             ],
-
         ]);
+
+        User::factory()->count(5)->create();
     }
 }

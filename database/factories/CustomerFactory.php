@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Carbon\Carbon;
 use Faker\Factory as FakerFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -17,10 +17,12 @@ class CustomerFactory extends Factory
      * @return array<string, mixed>
      */
 
-    protected static ?string $password;
     public function definition(): array
     {
         $faker = FakerFactory::create('ru_RU');
+
+        $arrivalDate = Carbon::now()->subDays(rand(1, 30));
+        $departureDate = $arrivalDate->addDays(rand(1, 30));
 
         return [
             'first_name' => $faker->firstName(),
@@ -28,7 +30,13 @@ class CustomerFactory extends Factory
             'middle_name' => $faker->middleName(),
             'email' => fake()->unique()->safeEmail(),
             'phoneNumber' => '+7978' . fake()->unique()->numerify('#######'),
-            'status' => fake()->randomElement(['left_a_request', 'active', 'inactive']),
+            'status' => fake()->randomElement([
+                'left_a_request',
+                'active',
+                'inactive',
+            ]),
+            'arrival_date' => $arrivalDate,
+            'departure_date' => $departureDate,
         ];
     }
 }

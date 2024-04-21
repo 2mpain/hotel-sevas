@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Customer;
+use App\Models\Feedback;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,15 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(UsersTableSeeder::class);
-        \App\Models\User::factory(5)->create();
-        
-        $this->call(CustomerSeeder::class);
-        \App\Models\Customer::factory(10)->create();
-        
-        $this->call(HotelRoomTypesSeeder::class);
+        (new UserSeeder())->run();
+        (new CustomerSeeder())->run();
+        (new HotelRoomTypesSeeder())->run();
+        (new HotelRoomsSeeder())->run();
+        (new FeedbackSeeder())->run();
 
-        $this->call(FeedbackSeeder::class);
-        \App\Models\Feedback::factory(10)->create();
+        Customer::factory()->count(10)->create();
+        Feedback::factory()->count(10)->create();
     }
 }

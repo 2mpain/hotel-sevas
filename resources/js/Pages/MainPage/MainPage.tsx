@@ -1,26 +1,34 @@
-import "../../../css/index.css";
-import { motion } from "framer-motion";
+import Stepper from "@/Components/Steps";
 import { Cards } from "@/Pages/MainPage/Cards/Cards";
 import { UsersFeedback } from "@/Pages/MainPage/UsersFeedack/UsersFeedback";
-import Stepper from "@/Components/Steps";
+import { motion } from "framer-motion";
+import "../../../css/index.css";
 // import { SignIn } from "./signin";
-import { Footer } from "@/Pages/MainPage/Footer/Footer";
-import { HeaderParagraph } from "@/Pages/MainPage/HeaderParagraph";
-import { steps } from "@/Pages/MainPage/data/data";
+import { AlertComp } from "@/Components/Alert";
 import { CustomAccordion } from "@/Components/CustomAccordion";
 import MainHeader from "@/Components/Header/Header";
 import ContactUs from "@/Pages/MainPage/ContactUs/ContactUs";
-import { Head } from "@inertiajs/react";
-import { AlertComp } from "@/Components/Alert";
-import { useState, useEffect } from "react";
+import { Footer } from "@/Pages/MainPage/Footer/Footer";
+import { HeaderParagraph } from "@/Pages/MainPage/HeaderParagraph";
+import { steps } from "@/Pages/MainPage/data/data";
+import { Head, router } from "@inertiajs/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { z } from "zod";
-import { router } from "@inertiajs/react";
 
 export function MainPage() {
     const [showAlert, setShowAlert] = useState(false);
 
     const handleRoomBookingFormSubmit = (form: any) => {
-        router.post("/customers", form.getValues());
+        axios
+            .post("api/customer/create-customer", form.getValues())
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                throw new Error(error);
+            });
+
         setShowAlert(true);
     };
 
@@ -59,7 +67,7 @@ export function MainPage() {
                 <Cards onSubmit={handleRoomBookingFormSubmit} />
 
                 {/* contact form */}
-                <ContactUs setShowAlert={setShowAlert}/>
+                <ContactUs setShowAlert={setShowAlert} />
 
                 {/* website footer */}
                 <Footer />

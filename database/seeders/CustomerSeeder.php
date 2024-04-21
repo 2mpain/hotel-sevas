@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use DB;
+use App\Models\Customer;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class CustomerSeeder extends Seeder
@@ -12,8 +13,8 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('customers')->insert([
-
+        $query = Customer::query();
+        $query->insert([
             [
                 'first_name' => 'Станислав',
                 'last_name' => 'Азимов',
@@ -23,7 +24,9 @@ class CustomerSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'feedbacks_count' => 1
+                'arrival_date' => Carbon::createFromFormat('Y-m-d', '2024-04-24'),
+                'departure_date' => Carbon::createFromFormat('Y-m-d', '2024-05-12'),
+                'feedbacks_count' => 1,
             ],
             [
                 'first_name' => 'Дэнчик',
@@ -34,7 +37,9 @@ class CustomerSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'feedbacks_count' => 1
+                'arrival_date' => Carbon::createFromFormat('Y-m-d', '2024-04-14'),
+                'departure_date' => Carbon::createFromFormat('Y-m-d', '2024-04-26'),
+                'feedbacks_count' => 1,
             ],
             [
                 'first_name' => 'Мария',
@@ -45,7 +50,9 @@ class CustomerSeeder extends Seeder
                 'status' => 'active',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'feedbacks_count' => 1
+                'arrival_date' => Carbon::createFromFormat('Y-m-d', '2024-04-13'),
+                'departure_date' => Carbon::createFromFormat('Y-m-d', '2024-04-31'),
+                'feedbacks_count' => 1,
             ],
         ]);
     }

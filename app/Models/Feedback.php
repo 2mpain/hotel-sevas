@@ -9,15 +9,13 @@ class Feedback extends Model
 {
     use HasFactory;
 
-    /**
-     * @var string
-     */
     public $table = 'feedbacks';
 
     protected $fillable = [
         'name',
-        'email',
         'message',
-        'customer_id'
+        'feedback_photo',
+        'customer_id',
+        'created_at',
     ];
 }

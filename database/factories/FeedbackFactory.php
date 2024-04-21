@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Customer;
 use Faker\Factory as FakerFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -21,8 +22,9 @@ class FeedbackFactory extends Factory
 
         return [
             'name' => $faker->firstName(),
-            'email' => fake()->unique()->safeEmail(),
             'message' => fake()->unique()->text(),
+            'feedback_photo' => $faker->imageUrl('640', '480', 'feedback'),
+            'customer_id' => Customer::factory(),
         ];
     }
 }

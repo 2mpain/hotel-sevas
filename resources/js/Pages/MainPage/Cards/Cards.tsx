@@ -1,29 +1,14 @@
-import { useState } from "react";
-import "../../../../css/index.css";
-import { Button } from "@/Components/readyToUse/button";
-import { motion } from "framer-motion";
-import { animate } from "@/utils/animate";
-import { cardsData } from "./data";
 import { CustomDialog } from "@/Components/Dialog/CustomDialog";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/Components/readyToUse/dialog";
-import { Input } from "@/Components/readyToUse/input";
-import { Label } from "@/Components/readyToUse/label";
+import { animate } from "@/utils/animate";
+import { motion } from "framer-motion";
+import "../../../../css/index.css";
+import { cardsData } from "./data";
 
 interface CardProps {
     onSubmit: (form: any) => void;
 }
 
 export function Cards({ onSubmit }: CardProps) {
-    const [showDialog, setShowDialog] = useState(false);
-
     return (
         <>
             <motion.div

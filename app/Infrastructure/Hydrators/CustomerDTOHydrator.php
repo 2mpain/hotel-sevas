@@ -24,10 +24,10 @@ class CustomerDTOHydrator extends AbstractHydrator
 
     private function formatDate(?string $date): ?string
     {
-        if (!$date) {
-            return null;
+        if ($date) {
+            return Carbon::parse($date)->isoFormat('D MMMM YYYY');
         }
 
-        return Carbon::parse($date)->isoFormat('D MMMM YYYY');
+        return null;
     }
 }

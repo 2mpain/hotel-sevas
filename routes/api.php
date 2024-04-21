@@ -23,3 +23,8 @@ Route::post('customer/create-customer', [
     CustomersController::class, 
     'createCustomer'
 ]);
+
+Route::get('customer/get-customers', [
+    CustomersController::class,
+    'getCustomers'
+]);

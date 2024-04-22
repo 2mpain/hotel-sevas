@@ -34,5 +34,10 @@ Route::group(['prefix' => '/customer'], function () {
         CustomersController::class,
         'deleteCustomer',
     ]);
+
+    Route::put('/update-customer', [
+        CustomersController::class,
+        'updateCustomer',
+    ]);
     
 });

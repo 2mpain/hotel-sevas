@@ -13,12 +13,12 @@ class CustomersSearchRequest extends AbstractRequest
     #[\Override] public function rules(): array
     {
         return [
-            'name' => 'string',
-            'new' => 'bool',
-            'arrivalDate' => 'date_format:Y-m-d',
+            'name'          => 'string',
+            'new'           => 'bool',
+            'arrivalDate'   => 'date_format:Y-m-d',
             'departureDate' => 'date_format:Y-m-d',
-            'phoneNumber' => 'string',
-            'status' => [
+            'phoneNumber'   => 'string',
+            'status'        => [
                 'integer', 
                 Rule::in(CustomersStatusEnum::toValues())
             ],

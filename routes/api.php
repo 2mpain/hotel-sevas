@@ -13,18 +13,26 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
-*/
+ */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('customer/create-customer', [
-    CustomersController::class, 
-    'createCustomer'
-]);
+Route::group(['prefix' => '/customer'], function () {
+    Route::post('/create-customer', [
+        CustomersController::class,
+        'createCustomer',
+    ]);
 
-Route::get('customer/get-customers', [
-    CustomersController::class,
-    'getCustomers'
-]);
+    Route::get('/get-customers', [
+        CustomersController::class,
+        'getCustomers',
+    ]);
+
+    Route::delete('/delete-customer', [
+        CustomersController::class,
+        'deleteCustomer',
+    ]);
+    
+});

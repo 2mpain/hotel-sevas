@@ -29,6 +29,10 @@ class Customer extends Model
         return new CustomerFactory();
     }
 
+    public function getId() : int 
+    {
+        return $this->id;
+    }
     /**
      * @return string
      */
@@ -66,16 +70,33 @@ class Customer extends Model
         return $this->phoneNumber;
     }
 
+
+    /**
+     * @return string
+     */
     public function getStatus(): string
     {
         return $this->status;
     }
 
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getArrivalDate(): ?string
     {
         return $this->arrival_date;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDepartureDate(): ?string
     {
         return $this->departure_date;

@@ -14,7 +14,8 @@ class CustomerDTO extends AbstractDTO
         protected ?string  $middleName,
         protected ?string  $arrivalDate,
         protected ?string  $departureDate,
-        protected int      $status,
+        protected int|string      $status,
+        protected ?int     $id = null,
     ) {
     }
 
@@ -109,9 +110,14 @@ class CustomerDTO extends AbstractDTO
         return $this->departureDate;
     }
 
-    public function getStatus(): int
+    public function getStatus(): int|string
     {
         return $this->status;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     #[\Override] public function toArray(): array

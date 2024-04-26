@@ -13,7 +13,7 @@ class FeedbacksController extends Controller
     /**
      * @param Request $request
      */
-    public function store(Request $request)
+    public function createFeedback(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:2|max:20',

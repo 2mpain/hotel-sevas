@@ -1,8 +1,5 @@
-import React from "react";
 import { Header } from "@/Components/Header";
 import { Button } from "@/Components/readyToUse/button";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import {
     Form,
     FormControl,
@@ -11,14 +8,17 @@ import {
     FormItem,
     FormMessage,
 } from "@/Components/readyToUse/form";
-import { z } from "zod";
-import { router } from "@inertiajs/react";
 import { Input } from "@/Components/readyToUse/input";
 import { Textarea } from "@/Components/readyToUse/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { router } from "@inertiajs/react";
+import axios from "axios";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-
-interface ContactUsProps{
-  setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+interface ContactUsProps {
+    setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ContactUs: React.FC<ContactUsProps> = ({ setShowAlert }) => {
@@ -51,9 +51,20 @@ const ContactUs: React.FC<ContactUsProps> = ({ setShowAlert }) => {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        router.post("/feedbacks", form.getValues());
-        form.reset();
-        setShowAlert(true);
+        axios
+            .post("/api/feedback/create-feedback", form.getValues(), {
+                headers: {
+                    Accept: "application/json",
+                },
+            })
+            .then((response) => {
+                console.log(response.data);
+                form.reset();
+                setShowAlert(true);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     }
 
     return (

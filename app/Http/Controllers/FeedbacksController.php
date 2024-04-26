@@ -2,50 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\DTO\Feedback\FeedbackCreationDTO;
+use App\Http\Requests\Feedbacks\FeedbackCreateRequest;
 use App\Models\Feedback;
+use App\Response\AbstractResponse;
+use App\Services\Feedbacks\FeedbackCreationService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class FeedbacksController extends Controller
 {
 
     /**
-     * @param Request $request
+     * @param \App\Http\Requests\Feedbacks\FeedbackCreateRequest $request
+     * @param \App\Services\Feedbacks\FeedbackCreationService $feedbackCreationService
+     * @return AbstractResponse
      */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:2|max:20',
-            'email' => 'required|email',
-            'message' => 'required|string|min:10',
-        ]);
+    public function createFeedback(
+        FeedbackCreateRequest $request,
+        FeedbackCreationService $feedbackCreationService
+    ): AbstractResponse {
+        $request->validate();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
+        $dto = new FeedbackCreationDTO(
+            $request->getName(),
+            $request->getEmail(),
+            $request->getMessage()
+        );
 
-        try {
-            $customer = Customer::where('email', $request->email)->first();
-            \Log::info($customer);
+        $feedback = $feedbackCreationService->create($dto);
 
-            $customerId = $customer ? $customer->id : null;
-
-            Feedback::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'message' => $request->message,
-                'customer_id' => $customerId,
-            ]);
-
-            if ($customer) {
-                $customer->increment('feedbacks_count');
-            }
-
-            return redirect()->back()->with('success');
-        } catch (\Exception $e) {
-            \Log::error($e);
-            return redirect()->back()->with('error', 'Что-то пошло не так');
-        }
+        return new AbstractResponse(
+            [
+                'result' => true,
+                'feedback' => $feedback,
+            ],
+            200
+        );
     }
 }

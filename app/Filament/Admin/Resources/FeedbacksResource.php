@@ -52,19 +52,6 @@ class FeedbacksResource extends Resource
                             ->options($customers)
                             ->label('E-mail клиента'),
                     ])->columns(1),
-
-                Forms\Components\Section::make('Фото отзыва')
-                    ->schema([
-                        Forms\Components\FileUpload::make('feedback_photo')
-                            ->default(function ($model) {
-                                return $model->feedback_photo ?? '';
-                            })
-                            ->uploadingMessage('Загружаем фото вашего отзыва...')
-                            ->image()
-                            ->label('Фото отзыва')
-                            ->previewable(true)
-                            ->imageEditor(),
-                    ])->columns(1),
             ]);
     }
 
@@ -72,17 +59,12 @@ class FeedbacksResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('feedback_photo')
-                    ->size(70)
-                    ->label('Фото')
-                    ->circular(),
-
                 Tables\Columns\TextColumn::make('name')
                     ->description(function (Feedback $record): string {
                         $message = strip_tags($record->message);
-                        return mb_strlen($message) > 80
-                        ? mb_substr($message, 0, 80) . '...'
-                        : $message;
+                        return mb_strlen($message) > 60
+                            ? mb_substr($message, 0, 60) . '...'
+                            : $message;
                     })
 
                     ->icon('heroicon-m-user')
@@ -90,11 +72,18 @@ class FeedbacksResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Отзыв'),
+                Tables\Columns\TextColumn::make('email')
+                    ->copyable()
+                    ->icon('heroicon-m-envelope')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Эл.почта'),
                 Tables\Columns\TextColumn::make('customer_id')
-                    ->url(fn() => '/admin/customers/', true)
+                    ->url(fn () => '/admin/customers/', true)
                     ->searchable()
                     ->sortable()
                     ->icon('heroicon-m-identification')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('ID Клиента'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->date('d M Y, H:i')
@@ -107,7 +96,6 @@ class FeedbacksResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
             ])

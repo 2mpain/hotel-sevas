@@ -7,7 +7,6 @@ use App\Http\Requests\Customers\CustomerCreateRequest;
 use App\Http\Requests\Customers\CustomerDeleteRequest;
 use App\Http\Requests\Customers\CustomersSearchRequest;
 use App\Http\Requests\Customers\CustomerUpdateRequest;
-use App\Models\Customer;
 use App\Response\AbstractResponse;
 use App\Services\Customers\CustomerCreationService;
 use App\Services\Customers\CustomerDeletionService;

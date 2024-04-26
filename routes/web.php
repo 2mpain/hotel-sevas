@@ -25,5 +25,3 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-Route::post('/feedbacks', [FeedbacksController::class, 'store']);

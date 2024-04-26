@@ -22,9 +22,8 @@ class FeedbackFactory extends Factory
 
         return [
             'name' => $faker->firstName(),
+            'email' => $faker->unique()->safeEmail(),
             'message' => fake()->unique()->text(),
-            'feedback_photo' => $faker->imageUrl('640', '480', 'feedback'),
-            'customer_id' => Customer::factory(),
         ];
     }
 }

@@ -104,4 +104,9 @@ class CustomersRepository implements CustomersRepositoryInterface
             'leftARequestCustomersCount' => $leftARequestCustomersCount,
         ];
     }
+
+    #[\Override] public function getCustomerById(int $id): Customer
+    {
+        return Customer::query()->where(['id' => $id])->firstOrFail();
+    }
 }

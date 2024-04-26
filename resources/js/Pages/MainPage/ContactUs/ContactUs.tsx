@@ -13,6 +13,7 @@ import { Textarea } from "@/Components/readyToUse/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "@inertiajs/react";
 import axios from "axios";
+import { Component } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -67,6 +68,22 @@ const ContactUs: React.FC<ContactUsProps> = ({ setShowAlert }) => {
             });
     }
 
+    const formFields = [
+        {
+            name: "name" as const,
+            placeholder: "Ваше имя",
+        },
+        {
+            name: "email" as const,
+            placeholder: "Адрес электронной почты",
+        },
+        {
+            name: "message" as const,
+            placeholder: "Ваше сообщение",
+            className: "min-h-[10em]",
+        },
+    ];
+
     return (
         <div className="dark:bg-transparent light:text-black dark:text-white flex flex-col justify-center py-10 w-screen min-h-screen">
             <Header title="Свяжитесь с нами" id="contactus" />
@@ -79,52 +96,37 @@ const ContactUs: React.FC<ContactUsProps> = ({ setShowAlert }) => {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="flex flex-col gap-4 mt-16 px-10 lg:mt-20 min-w-full lg:min-w-[500px]"
                     >
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            placeholder="Ваше имя"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            placeholder="Адрес электронной почты"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="message"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Textarea
-                                            {...field}
-                                            placeholder="Ваше сообщение ..."
-                                            className="min-h-[10em]"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {formFields.map((field, index) => (
+                            <FormField
+                                key={index}
+                                control={form.control}
+                                name={field.name}
+                                render={({ field: renderProps }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            {field.name === "message" ? (
+                                                <Textarea
+                                                    placeholder={
+                                                        field.placeholder
+                                                    }
+                                                    className={field.className}
+                                                    {...renderProps}
+                                                />
+                                            ) : (
+                                                <Input
+                                                    {...field}
+                                                    placeholder={
+                                                        field.placeholder
+                                                    }
+                                                    {...renderProps}
+                                                />
+                                            )}
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        ))}
                         <div className="text-center mt-10">
                             <Button
                                 className="px-8 py-2 border-black text-black bg-white hover:bg-black hover:text-white rounded-3xl"

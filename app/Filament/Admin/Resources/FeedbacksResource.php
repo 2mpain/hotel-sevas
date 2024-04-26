@@ -62,9 +62,9 @@ class FeedbacksResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->description(function (Feedback $record): string {
                         $message = strip_tags($record->message);
-                        return mb_strlen($message) > 80
-                        ? mb_substr($message, 0, 80) . '...'
-                        : $message;
+                        return mb_strlen($message) > 60
+                            ? mb_substr($message, 0, 60) . '...'
+                            : $message;
                     })
 
                     ->icon('heroicon-m-user')
@@ -79,10 +79,11 @@ class FeedbacksResource extends Resource
                     ->sortable()
                     ->label('Эл.почта'),
                 Tables\Columns\TextColumn::make('customer_id')
-                    ->url(fn() => '/admin/customers/', true)
+                    ->url(fn () => '/admin/customers/', true)
                     ->searchable()
                     ->sortable()
                     ->icon('heroicon-m-identification')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('ID Клиента'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->date('d M Y, H:i')

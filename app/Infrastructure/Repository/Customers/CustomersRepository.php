@@ -109,4 +109,9 @@ class CustomersRepository implements CustomersRepositoryInterface
     {
         return Customer::query()->where(['id' => $id])->firstOrFail();
     }
+
+    #[\Override] public function getCustomerByEmail(string $email): Customer
+    {
+        return Customer::query()->where(['email' => $email])->firstOrFail();
+    }
 }

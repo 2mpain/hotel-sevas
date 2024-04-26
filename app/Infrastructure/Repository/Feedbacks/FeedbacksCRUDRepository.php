@@ -25,9 +25,10 @@ class FeedbacksCRUDRepository implements CRUDRepositoryInterface
     #[\Override] public function create(AbstractDTO $DTO): void
     {
         $feedbackModel = new Feedback([
-            'name' => $DTO->getName(),
-            'email' => $DTO->getEmail(),
-            'message' => $DTO->getMessage(),
+            'name'        => $DTO->getName(),
+            'email'       => $DTO->getEmail(),
+            'message'     => $DTO->getMessage(),
+            'customer_id' => $DTO->getCustomerId(),
         ]);
 
         $feedbackModel->saveOrFail();

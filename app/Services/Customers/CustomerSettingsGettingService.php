@@ -20,4 +20,13 @@ class CustomerSettingsGettingService
     {
         return $this->customersRepository->getCustomerById($customerId);
     }
+
+    /**
+     * @param string $customerEmail
+     * @return Customer
+     */
+    public function getCustomerByEmail(string $customerEmail): Customer
+    {
+        return $this->customersRepository->getCustomerByEmail($customerEmail);
+    }
 }

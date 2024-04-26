@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Feedbacks;
 
 use App\Http\Requests\AbstractRequest;
+use Illuminate\Validation\Rule;
 
 class FeedbackCreateRequest extends AbstractRequest
 {
@@ -24,6 +25,11 @@ class FeedbackCreateRequest extends AbstractRequest
                 'string',
                 'min:10',
             ],
+            'customerId' => [
+                'nullable',
+                'integer',
+                Rule::exists('customers', 'id'),
+            ]
         ];
     }
 
@@ -51,12 +57,21 @@ class FeedbackCreateRequest extends AbstractRequest
         return $this->request->get('message');
     }
 
+    /**
+     * @return int|null
+     */
+    public function getCustomerId(): ?int
+    {
+        return $this->request->get('customerId');
+    }
+
     public function toArray(): array
     {
         return [
-            'name'    => $this->getName(),
-            'email'   => $this->getEmail(),
-            'message' => $this->getMessage(),
+            'name'       => $this->getName(),
+            'email'      => $this->getEmail(),
+            'message'    => $this->getMessage(),
+            'customerId' => $this->getCustomerId(),
         ];
     }
 }

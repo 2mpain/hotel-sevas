@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Feedback extends Model
 {
@@ -72,6 +73,27 @@ class Feedback extends Model
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getCustomerId(): ?int
+    {
+        return $this->customer_id;
+    }
+
+    /**
+     * @param int $customerId 
+     * @return self
+     */
+    public function setCustomerId(int $customerId): self
+    {
+        Log::info('im here');
+        $this->customer_id = $customerId;
 
         return $this;
     }

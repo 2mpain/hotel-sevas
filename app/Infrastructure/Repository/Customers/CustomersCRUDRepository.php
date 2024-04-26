@@ -18,7 +18,6 @@ class CustomersCRUDRepository implements CRUDRepositoryInterface
         return $this->model;
     }
 
-
     /**
      * @param \App\Services\Customers\CustomerCreationDTO $DTO
      * @return void
@@ -26,14 +25,14 @@ class CustomersCRUDRepository implements CRUDRepositoryInterface
     #[\Override] public function create(AbstractDTO $DTO): void
     {
         $customerModel = new Customer([
-            'first_name'     => $DTO->getFirstName(),
-            'last_name'      => $DTO->getLastName(),
-            'email'          => $DTO->getEmail(),
-            'phoneNumber'    => $DTO->getPhoneNumber(),
-            'middle_name'    => $DTO->getMiddleName(),
-            'arrival_date'   => $DTO->getArrivalDate(),
+            'first_name' => $DTO->getFirstName(),
+            'last_name' => $DTO->getLastName(),
+            'email' => $DTO->getEmail(),
+            'phoneNumber' => $DTO->getPhoneNumber(),
+            'middle_name' => $DTO->getMiddleName(),
+            'arrival_date' => $DTO->getArrivalDate(),
             'departure_date' => $DTO->getDepartureDate(),
-            'status'         => $DTO->getStatus(),
+            'status' => $DTO->getStatus(),
         ]);
 
         $customerModel->saveOrFail();
@@ -51,8 +50,13 @@ class CustomersCRUDRepository implements CRUDRepositoryInterface
         // TODO: Implement update() method.
     }
 
+    /**
+     * @param \App\Services\Customers\CustomerDTO $DTO
+     * @return void
+     */
     #[\Override] public function delete(AbstractDTO $DTO): void
     {
-        // TODO: Implement delete() method.
+        $customer = Customer::findOrFail($DTO->getId());
+        $customer->deleteOrFail();
     }
 }

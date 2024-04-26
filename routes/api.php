@@ -20,24 +20,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => '/customer'], function () {
-    Route::post('/create-customer', [
-        CustomersController::class,
-        'createCustomer',
-    ]);
-
     Route::get('/get-customers', [
         CustomersController::class,
         'getCustomers',
     ]);
 
-    Route::delete('/delete-customer', [
+    Route::post('/create-customer', [
         CustomersController::class,
-        'deleteCustomer',
+        'createCustomer',
     ]);
 
     Route::put('/update-customer', [
         CustomersController::class,
         'updateCustomer',
     ]);
-    
+
+    Route::delete('/delete-customer', [
+        CustomersController::class,
+        'deleteCustomer',
+    ]);
 });

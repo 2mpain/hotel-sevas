@@ -59,53 +59,83 @@ class CustomerUpdateRequest extends AbstractRequest
         ];
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->request->get('id');
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->request->get('firstName');
     }
 
+    /**
+     * @return string|null
+     */
     public function getMiddleName(): ?string
     {
         return $this->request->get('middleName');
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->request->get('lastName');
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->request->get('email');
     }
 
+    /**
+     * @return string|null
+     */
     public function getPhoneNumber(): ?string
     {
         return $this->request->get('phoneNumber');
     }
 
+    /**
+     * @return Carbon|null
+     */
     public function getArrivalDate(): ?Carbon
     {
         $arrivalDate = $this->request->get('arrivalDate');
         return $arrivalDate ? Carbon::createFromFormat('Y-m-d', $arrivalDate) : null;
     }
 
+    /**
+     * @return Carbon|null
+     */
     public function getDepartureDate(): ?Carbon
     {
         $departureDate = $this->request->get('departureDate');
         return $departureDate ? Carbon::createFromFormat('Y-m-d', $departureDate) : null;
     }
 
+    /**
+     * @return int|null
+     */
     public function getStatus(): ?int
     {
         return $this->request->get('status');   
     }
 
+    /**
+     * @return int|null
+     */
     public function getRoomNumber(): ?int
     {
         return $this->request->get('roomNumber');

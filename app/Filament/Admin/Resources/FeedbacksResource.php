@@ -52,19 +52,6 @@ class FeedbacksResource extends Resource
                             ->options($customers)
                             ->label('E-mail клиента'),
                     ])->columns(1),
-
-                Forms\Components\Section::make('Фото отзыва')
-                    ->schema([
-                        Forms\Components\FileUpload::make('feedback_photo')
-                            ->default(function ($model) {
-                                return $model->feedback_photo ?? '';
-                            })
-                            ->uploadingMessage('Загружаем фото вашего отзыва...')
-                            ->image()
-                            ->label('Фото отзыва')
-                            ->previewable(true)
-                            ->imageEditor(),
-                    ])->columns(1),
             ]);
     }
 
@@ -72,11 +59,6 @@ class FeedbacksResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('feedback_photo')
-                    ->size(70)
-                    ->label('Фото')
-                    ->circular(),
-
                 Tables\Columns\TextColumn::make('name')
                     ->description(function (Feedback $record): string {
                         $message = strip_tags($record->message);
@@ -90,6 +72,12 @@ class FeedbacksResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Отзыв'),
+                Tables\Columns\TextColumn::make('email')
+                    ->copyable()
+                    ->icon('heroicon-m-envelope')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Эл.почта'),
                 Tables\Columns\TextColumn::make('customer_id')
                     ->url(fn() => '/admin/customers/', true)
                     ->searchable()
@@ -107,7 +95,6 @@ class FeedbacksResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
             ])

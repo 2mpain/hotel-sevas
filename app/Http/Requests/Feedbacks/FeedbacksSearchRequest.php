@@ -12,7 +12,7 @@ class FeedbacksSearchRequest extends AbstractRequest
     {
         return [
             'name'          => 'string',
-            'email'         => 'email',
+            'email'         => 'string',
             'message'       => 'string',
             'new'           => 'bool',
             'dateStart'     => 'date_format:Y-m-d',
@@ -76,7 +76,7 @@ class FeedbacksSearchRequest extends AbstractRequest
      */
     public function getCustomerId(): ?int
     {
-        return (int) $this->request->get('customerId');
+        return $this->request->get('customerId');
     }
 
     public function toArray(): array

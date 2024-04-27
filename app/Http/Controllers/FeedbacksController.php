@@ -7,6 +7,7 @@ use App\Http\Requests\Feedbacks\FeedbackCreateRequest;
 use App\Http\Requests\Feedbacks\FeedbacksSearchRequest;
 use App\Response\AbstractResponse;
 use App\Services\Feedbacks\FeedbackCreationService;
+use App\Services\Feedbacks\FeedbacksGettingService;
 
 class FeedbacksController extends Controller
 {
@@ -15,11 +16,18 @@ class FeedbacksController extends Controller
      * @param \App\Http\Requests\Feedbacks\FeedbacksSearchRequest $request
      * @return AbstractResponse
      */
-    public function getFeedbacks(FeedbacksSearchRequest $request): AbstractResponse
-    {
+    public function getFeedbacks(
+        FeedbacksSearchRequest $request,
+        FeedbacksGettingService $feedbacksGettingService
+    ): AbstractResponse {
         $request->validate();
-        return new AbstractResponse('', 200);
+
+        $customers = $feedbacksGettingService->getFeedbacks($request->toArray());
+
+        return new AbstractResponse($customers, 200);
     }
+
+
     /**
      * @param \App\Http\Requests\Feedbacks\FeedbackCreateRequest $request
      * @param \App\Services\Feedbacks\FeedbackCreationService $feedbackCreationService

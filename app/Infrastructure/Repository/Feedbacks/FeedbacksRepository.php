@@ -69,7 +69,7 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
 
         return [
             'total'     =>  $this->getFeedbacksCount(),
-            'feedbacks' => $feedbacks,
+            'feedbacks' =>  $feedbacks,
         ];
     }
 

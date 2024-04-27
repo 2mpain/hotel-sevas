@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Customer;
-use DB;
 use Illuminate\Database\Seeder;
 use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HotelRoomsSeeder extends Seeder
 {
@@ -64,7 +65,7 @@ class HotelRoomsSeeder extends Seeder
             }
             
         } catch (Exception $e) {
-            \Log::info($e);
+            Log::info($e->getMessage());
         }
 
     }

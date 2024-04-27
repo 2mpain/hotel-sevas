@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
+            $table->string('email');
             $table->text('message');
             $table->timestamps();
         });

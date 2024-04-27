@@ -6,6 +6,10 @@ use App\Infrastructure\Mutators\Customers\CustomerSettingsMutator;
 use App\Infrastructure\Mutators\Customers\CustomerSettingsMutatorInterface;
 use App\Infrastructure\Repository\Customers\CustomersRepository;
 use App\Infrastructure\Repository\Customers\CustomersRepositoryInterface;
+use App\Infrastructure\Repository\Feedbacks\FeedbacksRepository;
+use App\Infrastructure\Repository\Feedbacks\FeedbacksRepositoryInterface;
+use App\Models\Feedback;
+use App\Observers\FeedbackObserver;
 use Illuminate\Support\ServiceProvider;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 
@@ -18,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(CustomersRepositoryInterface::class, CustomersRepository::class);
         $this->app->bind(CustomerSettingsMutatorInterface::class, CustomerSettingsMutator::class);
+        $this->app->bind(FeedbacksRepositoryInterface::class, FeedbacksRepository::class);
     }
 
     /**
@@ -29,5 +34,7 @@ class AppServiceProvider extends ServiceProvider
             $switch
                 ->locales(['ru','en']);
         });
+
+        Feedback::observe(FeedbackObserver::class);
     }
 }

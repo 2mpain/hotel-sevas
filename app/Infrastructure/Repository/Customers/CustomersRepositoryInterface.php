@@ -15,4 +15,6 @@ interface CustomersRepositoryInterface
     public function getCustomersStatusData(): array;
 
     public function getCustomerById(int $id): Customer;
+
+    public function getCustomerByEmail(string $email): Customer;
 }

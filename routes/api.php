@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\FeedbacksController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +39,22 @@ Route::group(['prefix' => '/customer'], function () {
     Route::delete('/delete-customer', [
         CustomersController::class,
         'deleteCustomer',
+    ]);
+});
+
+Route::group(['prefix' => '/feedback'], function () {
+    Route::get('/get-feedbacks', [
+        FeedbacksController::class,
+        'getFeedbacks',
+    ]);
+    
+    Route::post('/create-feedback', [
+        FeedbacksController::class,
+        'createFeedback',
+    ]);
+
+    Route::delete('/delete-feedback', [
+        FeedbacksController::class,
+        'deleteFeedback',
     ]);
 });

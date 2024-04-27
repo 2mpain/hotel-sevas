@@ -2,50 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
-use App\Models\Feedback;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\DTO\Feedback\FeedbackCreationDTO;
+use App\Http\Requests\Feedbacks\FeedbackCreateRequest;
+use App\Http\Requests\Feedbacks\FeedbackDeleteRequest;
+use App\Http\Requests\Feedbacks\FeedbacksSearchRequest;
+use App\Response\AbstractResponse;
+use App\Services\Feedbacks\FeedbackCreationService;
+use App\Services\Feedbacks\FeedbackDeletionService;
+use App\Services\Feedbacks\FeedbacksGettingService;
 
 class FeedbacksController extends Controller
 {
 
     /**
-     * @param Request $request
+     * @param \App\Http\Requests\Feedbacks\FeedbacksSearchRequest $request
+     * @return AbstractResponse
      */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:2|max:20',
-            'email' => 'required|email',
-            'message' => 'required|string|min:10',
-        ]);
+    public function getFeedbacks(
+        FeedbacksSearchRequest $request,
+        FeedbacksGettingService $feedbacksGettingService
+    ): AbstractResponse {
+        $request->validate();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
+        $customers = $feedbacksGettingService->getFeedbacks($request->toArray());
 
-        try {
-            $customer = Customer::where('email', $request->email)->first();
-            \Log::info($customer);
+        return new AbstractResponse($customers, 200);
+    }
 
-            $customerId = $customer ? $customer->id : null;
+    /**
+     * @param \App\Http\Requests\Feedbacks\FeedbackCreateRequest $request
+     * @param \App\Services\Feedbacks\FeedbackCreationService $feedbackCreationService
+     * @return AbstractResponse
+     */
+    public function createFeedback(
+        FeedbackCreateRequest $request,
+        FeedbackCreationService $feedbackCreationService
+    ): AbstractResponse {
+        $request->validate();
 
-            Feedback::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'message' => $request->message,
-                'customer_id' => $customerId,
-            ]);
+        $dto = new FeedbackCreationDTO(
+            $request->getName(),
+            $request->getEmail(),
+            $request->getMessage()
+        );
 
-            if ($customer) {
-                $customer->increment('feedbacks_count');
-            }
+        $feedback = $feedbackCreationService->create($dto);
 
-            return redirect()->back()->with('success');
-        } catch (\Exception $e) {
-            \Log::error($e);
-            return redirect()->back()->with('error', 'Что-то пошло не так');
-        }
+        return new AbstractResponse(
+            [
+                'result' => true,
+                'feedback' => $feedback,
+            ],
+            200
+        );
+    }
+
+    /**
+     * @param \App\Http\Requests\Feedbacks\FeedbackDelete $request
+     * @param \App\Services\Feedbacks\FeedbackDeletionService $feedbackDeletionService
+     * @return AbstractResponse
+     */
+    public function deleteFeedback(
+        FeedbackDeleteRequest $request,
+        FeedbackDeletionService $feedbackDeletionService
+    ): AbstractResponse {
+        $request->validate();
+
+        $feedback = $feedbackDeletionService->delete($request->getId());
+
+        return new AbstractResponse(['result' => true, 'deletedFeedback' => $feedback], 200);
     }
 }

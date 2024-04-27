@@ -15,7 +15,7 @@ class HotelRoomTypeResource extends Resource
     protected static ?string $model = HotelRoomType::class;
     protected static ?string $navigationGroup = 'Отель';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
     protected static ?string $navigationLabel = 'Типы номеров';
     protected static ?string $pluralModelLabel = 'Типы номеров отеля';
 
@@ -37,7 +37,13 @@ class HotelRoomTypeResource extends Resource
                             ->numeric()
                             ->step(100)
                             ->placeholder(3500),
-                    ])->columns(2),
+                        Forms\Components\TextInput::make('square')
+                            ->label('Квадратные метры')
+                            ->required()
+                            ->numeric()
+                            ->step(5)
+                            ->placeholder(30),
+                    ])->columns(3),
 
                 Forms\Components\Section::make('Описание номера отеля')
                     ->schema([
@@ -75,12 +81,12 @@ class HotelRoomTypeResource extends Resource
                     ->description(function (HotelRoomType $record): string {
                         $description = strip_tags($record->description);
                         return mb_strlen($description) > 80
-                            ? mb_substr($description, 0, 80) . '...'
-                            : $description;
+                        ? mb_substr($description, 0, 80) . '...'
+                        : $description;
                     })
                     ->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'Эконом' => 'gray',
                         'Стандарт' => 'primary',
                         'Люкс' => 'success',
@@ -94,6 +100,12 @@ class HotelRoomTypeResource extends Resource
                     ->money('RUB')
                     ->sortable()
                     ->label('Цена'),
+                Tables\Columns\TextColumn::make('square')
+                    ->icon('heroicon-m-squares-2x2')
+                    ->searchable()
+                    ->sortable()
+                    ->numeric()
+                    ->label('Кв. метры'),
                 Tables\Columns\ImageColumn::make('image')
                     ->size(70)
                     ->label('Фото')

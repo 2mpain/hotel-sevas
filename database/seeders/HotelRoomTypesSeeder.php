@@ -40,14 +40,16 @@ class HotelRoomTypesSeeder extends Seeder
                 'Номер эконом идеален для двух гостей.
                 Все необходимые удобства, кроме телевизора.',
                 1500,
-                $this->RO0M_IMAGE_LINKS['Эконом']
+                $this->RO0M_IMAGE_LINKS['Эконом'],
+                30
             ),
             $this->createRoom(
                 'Стандарт',
                 'Стандартный номер идеален для одного гостя.
             В нем есть уютная кровать, ванная комната и все необходимые удобства.',
                 2500,
-                $this->RO0M_IMAGE_LINKS['Стандарт']
+                $this->RO0M_IMAGE_LINKS['Стандарт'],
+                35
             ),
             $this->createRoom(
                 'Люкс',
@@ -63,7 +65,8 @@ class HotelRoomTypesSeeder extends Seeder
             В номере класса люкс предусмотрены все необходимые удобства,
             чтобы сделать ваше пребывание максимально комфортным и приятным.',
                 5200,
-                $this->RO0M_IMAGE_LINKS['Люкс']
+                $this->RO0M_IMAGE_LINKS['Люкс'],
+                40
             ),
             $this->createRoom(
                 'Семейный',
@@ -77,7 +80,8 @@ class HotelRoomTypesSeeder extends Seeder
             и ванна. Семейный номер создан для того, чтобы сделать
             ваш семейный отдых приятным и комфортным.',
                 4700,
-                $this->RO0M_IMAGE_LINKS['Семейный']
+                $this->RO0M_IMAGE_LINKS['Семейный'],
+                50
             ),
         ];
     }
@@ -93,13 +97,15 @@ class HotelRoomTypesSeeder extends Seeder
         string $type,
         string $description,
         int $price,
-        string $image = ''
+        string $image = '',
+        int $square,
     ): array {
         return [
             'type' => $type,
             'description' => $description,
             'price' => $price,
             'image' => $image,
+            'square' => $square,
         ];
     }
 }

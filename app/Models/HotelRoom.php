@@ -13,18 +13,34 @@ class HotelRoom extends Model
     protected $fillable = [
         'room_type_id',
         'floor',
-        'square',
-        'occupied',
+        'status',
         'occupants',
-        'booker_name',
+        'number',
+        'status_id',
         'customer_id'
     ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(HotelRoomStatus::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function roomType(): BelongsTo
     {
-        return $this->belongsTo(HotelRoomType::class, 'room_type_id');
+        return $this->belongsTo(HotelRoomType::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

@@ -15,11 +15,6 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
         });
-
-        Schema::table('customers', function (Blueprint $table) {
-            $table->smallInteger('room_number')->nullable()->after('status');
-            $table->foreign('room_number')->references('room_number')->on('hotel_rooms')->onDelete('set null');
-        });
     }
 
     /**
@@ -30,10 +25,6 @@ return new class extends Migration
         Schema::table('hotel_rooms', function (Blueprint $table) {
             $table->dropForeign(['customer_id']);
             $table->dropColumn('customer_id');
-        });
-
-        Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('room_number');
         });
     }
 };

@@ -43,5 +43,18 @@ Route::group(['prefix' => '/customer'], function () {
 });
 
 Route::group(['prefix' => '/feedback'], function () {
-    Route::post('/create-feedback', [FeedbacksController::class, 'createFeedback']);
+    Route::get('/get-feedbacks', [
+        FeedbacksController::class,
+        'getFeedbacks',
+    ]);
+    
+    Route::post('/create-feedback', [
+        FeedbacksController::class,
+        'createFeedback',
+    ]);
+
+    Route::delete('/delete-feedback', [
+        FeedbacksController::class,
+        'deleteFeedback',
+    ]);
 });

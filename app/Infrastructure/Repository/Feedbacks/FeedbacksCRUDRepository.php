@@ -25,9 +25,9 @@ class FeedbacksCRUDRepository implements CRUDRepositoryInterface
     #[\Override] public function create(AbstractDTO $DTO): void
     {
         $feedbackModel = new Feedback([
-            'name'        => $DTO->getName(),
-            'email'       => $DTO->getEmail(),
-            'message'     => $DTO->getMessage(),
+            'name' => $DTO->getName(),
+            'email' => $DTO->getEmail(),
+            'message' => $DTO->getMessage(),
             'customer_id' => $DTO->getCustomerId(),
         ]);
 
@@ -46,7 +46,13 @@ class FeedbacksCRUDRepository implements CRUDRepositoryInterface
         // TODO: Implement update() method.
     }
 
+    /**
+     * @param \App\Services\Feedbacks\FeedbackDTO $DTO
+     * @return void
+     */
     #[\Override] public function delete(AbstractDTO $DTO): void
     {
+        $feedback = Feedback::findOrFail($DTO->getId());
+        $feedback->deleteOrFail();
     }
 }

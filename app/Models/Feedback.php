@@ -92,10 +92,27 @@ class Feedback extends Model
      */
     public function setCustomerId(int $customerId): self
     {
-        Log::info('im here');
         $this->customer_id = $customerId;
 
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id 
+     * @return self
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }

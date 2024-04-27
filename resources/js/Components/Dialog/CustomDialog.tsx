@@ -77,8 +77,9 @@ export function CustomDialog({ onFormSubmit }: CustomDialogProps) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        setOpen(false);
         onFormSubmit(form);
+        setOpen(false);
+        form.reset();
     }
 
     const formFields = [

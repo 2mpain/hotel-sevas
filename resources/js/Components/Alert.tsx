@@ -3,9 +3,9 @@ import {
     AlertDescription,
     AlertTitle,
 } from "@/Components/readyToUse/alert";
-import { Terminal } from "lucide-react";
-import { RocketIcon } from "@radix-ui/react-icons"
+import { RocketIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
+import { ReactNode } from "react";
 
 const exitAnimation = {
     hidden: { opacity: 0, y: 20 },
@@ -17,12 +17,14 @@ interface AlertCompProps {
     show: boolean;
     title: string;
     description: string;
+    icon?: ReactNode;
 }
 
 export function AlertComp({
     show,
     title = "Отлично!",
     description,
+    icon = <RocketIcon className="h-4 w-4" />,
 }: AlertCompProps) {
     return (
         <motion.div
@@ -33,7 +35,7 @@ export function AlertComp({
             className="fixed bottom-4 left-4 z-10"
         >
             <Alert>
-                <RocketIcon className="h-4 w-4" />
+                {icon}
                 <AlertTitle>{title}</AlertTitle>
                 <AlertDescription>{description}</AlertDescription>
             </Alert>

@@ -12,17 +12,27 @@ import { Input } from "@/Components/readyToUse/input";
 import { Textarea } from "@/Components/readyToUse/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "@inertiajs/react";
+import { CheckIcon, CrossCircledIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import axios from "axios";
-import { Component } from "lucide-react";
-import React from "react";
+import React, { ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface ContactUsProps {
     setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+    setAlertData: React.Dispatch<
+        React.SetStateAction<{
+            title: string;
+            description: string;
+            icon: ReactNode;
+        }>
+    >;
 }
 
-const ContactUs: React.FC<ContactUsProps> = ({ setShowAlert }) => {
+const ContactUs: React.FC<ContactUsProps> = ({
+    setShowAlert,
+    setAlertData,
+}) => {
     const formSchema = z.object({
         name: z
             .string()
@@ -59,12 +69,26 @@ const ContactUs: React.FC<ContactUsProps> = ({ setShowAlert }) => {
                 },
             })
             .then((response) => {
-                console.log(response.data);
-                form.reset();
-                setShowAlert(true);
+                if (response.status === 200) {
+                    console.log(response.data);
+                    form.reset();
+                    setAlertData({
+                        title: "Успешно!",
+                        description: "Ожидайте обратной связи.",
+                        icon: <CheckIcon />,
+                    });
+                }
             })
-            .catch((err) => {
-                console.error(err);
+            .catch((error) => {
+                console.error("Ошибка при отправке запроса:", error);
+                setAlertData({
+                    title: "Ошибка",
+                    description: "Что-то пошло не так. Попробуйте ещё раз.",
+                    icon: <CrossCircledIcon />,
+                });
+            })
+            .finally(() => {
+                setShowAlert(true);
             });
     }
 

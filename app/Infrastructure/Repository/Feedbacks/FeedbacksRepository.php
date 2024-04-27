@@ -15,7 +15,7 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
     {
         $query = Feedback::query();
 
-        if(isset($filters['id'])){
+        if (isset($filters['id'])) {
             $query->where(['id' => $filters['id']]);
         }
 
@@ -68,8 +68,17 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
         $feedbacks = $query->get()->toArray();
 
         return [
+            'total'     =>  $this->getFeedbacksCount(),
             'feedbacks' => $feedbacks,
         ];
+    }
+
+    /**
+     * @return int
+     */
+    #[\Override] public function getFeedbacksCount(): int
+    {
+        return Feedback::count();
     }
 
     /**

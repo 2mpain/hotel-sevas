@@ -52,4 +52,9 @@ Route::group(['prefix' => '/feedback'], function () {
         FeedbacksController::class,
         'createFeedback',
     ]);
+
+    Route::delete('/delete-feedback', [
+        FeedbacksController::class,
+        'deleteFeedback',
+    ]);
 });

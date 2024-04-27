@@ -57,7 +57,7 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
             $query->whereDate('created_at', $dateEnd);
         }
 
-        if(isset($filters['customerId'])){
+        if (isset($filters['customerId'])) {
             $query->where('customer_id', $filters['customerId']);
         }
 
@@ -66,5 +66,14 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
         return [
             'feedbacks' => $feedbacks,
         ];
+    }
+
+    /**
+     * @param int $id
+     * @return Feedback
+     */
+    #[\Override] public function getFeedbackById(int $id): Feedback
+    {
+        return Feedback::query()->where(['id' => $id])->firstOrFail();
     }
 }

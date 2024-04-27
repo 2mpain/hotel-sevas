@@ -10,7 +10,8 @@ class FeedbackDTO extends AbstractDTO
         protected string   $name,
         protected string   $email,
         protected string   $message,
-        protected ?int   $customerId
+        protected ?int     $customerId,
+        protected ?int     $id = null,
     ) {
     }
 
@@ -46,6 +47,14 @@ class FeedbackDTO extends AbstractDTO
         return $this->customerId;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     #[\Override] public function toArray(): array
     {
         $data = [
@@ -56,6 +65,10 @@ class FeedbackDTO extends AbstractDTO
     
         if ($this->getCustomerId() !== null) {
             $data['customerId'] = $this->getCustomerId();
+        }
+
+        if ($this->getId() !== null) {
+            $data['id'] = $this->getId();
         }
     
         return $data;

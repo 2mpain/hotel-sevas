@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\DTO\Feedback\FeedbackCreationDTO;
 use App\Http\Requests\Feedbacks\FeedbackCreateRequest;
+use App\Http\Requests\Feedbacks\FeedbackDeleteRequest;
 use App\Http\Requests\Feedbacks\FeedbacksSearchRequest;
 use App\Response\AbstractResponse;
 use App\Services\Feedbacks\FeedbackCreationService;
+use App\Services\Feedbacks\FeedbackDeletionService;
 use App\Services\Feedbacks\FeedbacksGettingService;
 
 class FeedbacksController extends Controller
@@ -26,7 +28,6 @@ class FeedbacksController extends Controller
 
         return new AbstractResponse($customers, 200);
     }
-
 
     /**
      * @param \App\Http\Requests\Feedbacks\FeedbackCreateRequest $request
@@ -54,5 +55,21 @@ class FeedbacksController extends Controller
             ],
             200
         );
+    }
+
+    /**
+     * @param \App\Http\Requests\Feedbacks\FeedbackDelete $request
+     * @param \App\Services\Feedbacks\FeedbackDeletionService $feedbackDeletionService
+     * @return AbstractResponse
+     */
+    public function deleteFeedback(
+        FeedbackDeleteRequest $request,
+        FeedbackDeletionService $feedbackDeletionService
+    ): AbstractResponse {
+        $request->validate();
+
+        $feedback = $feedbackDeletionService->delete($request->getId());
+
+        return new AbstractResponse(['result' => true, 'deletedFeedback' => $feedback], 200);
     }
 }

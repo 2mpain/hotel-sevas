@@ -6,21 +6,25 @@ use App\DTO\Feedback\FeedbackCreationDTO;
 use App\Http\Requests\Feedbacks\FeedbackCreateRequest;
 use App\Http\Requests\Feedbacks\FeedbackDeleteRequest;
 use App\Http\Requests\Feedbacks\FeedbacksSearchRequest;
+use App\Http\Requests\Feedbacks\FeedbackUpdateRequest;
+use App\Models\Feedback;
 use App\Response\AbstractResponse;
 use App\Services\Feedbacks\FeedbackCreationService;
 use App\Services\Feedbacks\FeedbackDeletionService;
-use App\Services\Feedbacks\FeedbacksGettingService;
+use App\Services\Feedbacks\FeedbackSettingsGettingService;
+use App\Services\Feedbacks\FeedbackSettingsUpdateService;
 
 class FeedbacksController extends Controller
 {
 
     /**
      * @param \App\Http\Requests\Feedbacks\FeedbacksSearchRequest $request
+     * @param \App\Services\Feedbacks\FeedbackSettingsGettingService $feedbackSettingsGettingService
      * @return AbstractResponse
      */
     public function getFeedbacks(
         FeedbacksSearchRequest $request,
-        FeedbacksGettingService $feedbacksGettingService
+        FeedbackSettingsGettingService $feedbacksGettingService
     ): AbstractResponse {
         $request->validate();
 
@@ -55,6 +59,34 @@ class FeedbacksController extends Controller
             ],
             200
         );
+    }
+
+    /**
+     * @param \App\Http\Requests\Feedbacks\FeedbackUpdateRequest $request
+     * @param \App\Services\Feedbacks\FeedbackSettingsGettingService $feedbackSettingsGettingService
+     * @param \App\Services\Feedbacks\FeedbackSettingsUpdateService $feedbackSettingsUpdateService
+     * @return AbstractResponse
+     */
+    public function updateFeedback(
+        FeedbackUpdateRequest $request,
+        FeedbackSettingsGettingService $feedbackSettingsGettingService,
+        FeedbackSettingsUpdateService $feedbackSettingsUpdateService,
+    ): AbstractResponse {
+        $request->validate();
+
+        $feedback = $feedbackSettingsGettingService->getFeedback(
+            $request->getId()
+        );
+
+        $feedbackSettingsUpdateService->updateFeedback(
+            $request,
+            $feedback
+        );
+
+        return new AbstractResponse([
+            'result' => true,
+            'updatedFeedback' => $feedback,
+        ], 200);
     }
 
     /**

@@ -13,10 +13,10 @@ class CustomerSettingsUpdateService
         private CustomerSettingsMutatorInterface $customerSettingsMutator,
     ) {
     }
+
     /**
      * @param CustomerUpdateRequest $request
-     * @param Customer $user
-     *
+     * @param Customer $customer
      * @return void
      */
     public function updateCustomer(CustomerUpdateRequest $request, Customer $customer): void
@@ -30,7 +30,7 @@ class CustomerSettingsUpdateService
             'arrivalDate' => $request->getArrivalDate(),
             'departureDate' => $request->getDepartureDate(),
             'status' => $request->getStatus(),
-            'roomNumber' => $request->getRoomNumber()
+            'roomNumber' => $request->getRoomNumber(),
         ];
 
         $this->customerSettingsMutator->updateCustomer(

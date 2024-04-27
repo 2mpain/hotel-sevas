@@ -15,6 +15,10 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
     {
         $query = Feedback::query();
 
+        if(isset($filters['id'])){
+            $query->where(['id' => $filters['id']]);
+        }
+
         if (isset($filters['name'])) {
             $query->where('name', 'like', "%{$filters['name']}%");
         }

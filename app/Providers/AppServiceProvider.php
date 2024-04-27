@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Infrastructure\Mutators\Customers\CustomerSettingsMutator;
 use App\Infrastructure\Mutators\Customers\CustomerSettingsMutatorInterface;
+use App\Infrastructure\Mutators\Feedbacks\FeedbackSettingsMutator;
+use App\Infrastructure\Mutators\Feedbacks\FeedbackSettingsMutatorInterface;
 use App\Infrastructure\Repository\Customers\CustomersRepository;
 use App\Infrastructure\Repository\Customers\CustomersRepositoryInterface;
 use App\Infrastructure\Repository\Feedbacks\FeedbacksRepository;
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CustomersRepositoryInterface::class, CustomersRepository::class);
         $this->app->bind(CustomerSettingsMutatorInterface::class, CustomerSettingsMutator::class);
         $this->app->bind(FeedbacksRepositoryInterface::class, FeedbacksRepository::class);
+        $this->app->bind(FeedbackSettingsMutatorInterface::class, FeedbackSettingsMutator::class);
     }
 
     /**

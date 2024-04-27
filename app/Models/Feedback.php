@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -19,6 +20,25 @@ class Feedback extends Model
         'customer_id',
         'created_at',
     ];
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id 
+     * @return self
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * @return string
@@ -93,25 +113,6 @@ class Feedback extends Model
     public function setCustomerId(int $customerId): self
     {
         $this->customer_id = $customerId;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id 
-     * @return self
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
 
         return $this;
     }

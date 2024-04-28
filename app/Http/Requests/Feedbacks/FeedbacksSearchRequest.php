@@ -11,6 +11,7 @@ class FeedbacksSearchRequest extends AbstractRequest
     #[\Override] public function rules(): array
     {
         return [
+            'id'            => 'integer',
             'name'          => 'string',
             'email'         => 'string',
             'message'       => 'string',
@@ -19,6 +20,14 @@ class FeedbacksSearchRequest extends AbstractRequest
             'dateEnd'       => 'date_format:Y-m-d',   
             'customerId'    => 'integer'   
         ];
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->request->get('id');
     }
 
     /**
@@ -82,6 +91,7 @@ class FeedbacksSearchRequest extends AbstractRequest
     public function toArray(): array
     {
         return [
+            'id'         => $this->getId(),
             'name'       => $this->getName(),
             'email'      => $this->getEmail(),
             'message'    => $this->getMessage(),

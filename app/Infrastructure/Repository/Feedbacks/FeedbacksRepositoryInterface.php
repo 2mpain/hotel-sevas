@@ -9,5 +9,7 @@ interface FeedbacksRepositoryInterface
 
     public function getFeedbacks(array $filters = []): array;
 
+    public function getFeedbacksCount(): int;
+
     public function getFeedbackById(int $id): Feedback;
 }

@@ -18,9 +18,9 @@ class CustomersStatusEnum extends Enum
     protected static function labels(): array
     {
         return [
-            'inactive'        => 'Inactive',
-            'left_a_request'  => 'Left a request',
-            'active'          => 'Active',
+            'inactive'        => 'Выселился',
+            'left_a_request'  => 'Оставил заявку',
+            'active'          => 'Проживает',
         ];
     }
 

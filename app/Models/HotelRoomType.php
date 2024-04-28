@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class HotelRoomType extends Model
 {
     protected $fillable = [
-        "type",
-        "description",
-        "price",
-        "image"
+        'type',
+        'description',
+        'price',
+        'image',
+        'square',
     ];
 
     /**

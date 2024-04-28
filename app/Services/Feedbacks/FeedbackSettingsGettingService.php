@@ -3,8 +3,9 @@
 namespace App\Services\Feedbacks;
 
 use App\Infrastructure\Repository\Feedbacks\FeedbacksRepositoryInterface;
+use App\Models\Feedback;
 
-class FeedbacksGettingService
+class FeedbackSettingsGettingService
 {
     public function __construct(
         private FeedbacksRepositoryInterface $feedbacksRepository
@@ -20,6 +21,15 @@ class FeedbacksGettingService
         $feedbacks = $this->feedbacksRepository->getFeedbacks($filters);
 
         return $feedbacks;
+    }
+
+    /**
+     * @param int $feedbackId
+     * @return Feedback
+     */
+    public function getFeedback(int $feedbackId): Feedback
+    {
+        return $this->feedbacksRepository->getFeedbackById($feedbackId);
     }
 }
 

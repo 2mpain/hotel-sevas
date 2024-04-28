@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\CustomerResource\Pages;
 use App\Models\Customer;
+use App\Models\CustomerStatus;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -36,7 +37,11 @@ class CustomerResource extends Resource
                     ->description('Адрес электронной почты и контактный номер клиента.')
                     ->schema([
                         Forms\Components\TextInput::make('email')->email()->required()->label('Эл.почта'),
-                        Forms\Components\TextInput::make('phoneNumber')->tel()->required()->label('Номер телефона'),
+                        Forms\Components\TextInput::make('phoneNumber')
+                            ->length(12)
+                            ->tel()
+                            ->required()
+                            ->label('Номер телефона'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Статус клиента')
@@ -46,11 +51,7 @@ class CustomerResource extends Resource
                         Forms\Components\Select::make('status')
                             ->required()
                             ->label('Статус')
-                            ->options([
-                                'left_a_request' => 'Оставил заявку',
-                                'active' => 'Проживает в отеле',
-                                'inactive' => 'Выселился',
-                            ]),
+                            ->options(CustomerStatus::all()->pluck('name', 'id')),
 
                         Forms\Components\Section::make('Даты проживания')
                             ->description('Даты проживания клиента.')
@@ -61,6 +62,7 @@ class CustomerResource extends Resource
                                     ->displayFormat('d M Y')
                                     ->seconds(false)
                                     ->prefixIcon('heroicon-m-calendar')
+                                    ->before('departure_date')
                                     ->label('Дата прибытия'),
                                 Forms\Components\DatePicker::make('departure_date')
                                     ->required()
@@ -68,7 +70,7 @@ class CustomerResource extends Resource
                                     ->displayFormat('d M Y')
                                     ->seconds(false)
                                     ->prefixIcon('heroicon-m-calendar')
-                                    ->label('Дата убытия'),
+                                    ->label('Дата отъезда'),
 
                             ])->columns(2),
 
@@ -103,13 +105,14 @@ class CustomerResource extends Resource
                     ->icon('heroicon-m-phone')
                     ->searchable()
                     ->label('Номер телефона'),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('statusName.name')
                     ->sortable()
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'left_a_request' => 'primary',
-                        'active' => 'success',
-                        'inactive' => 'danger',
+                        'Выселился' => 'danger',
+                        'Проживает' => 'primary',
+                        'Оставил заявку' => 'success',
+                        default => 'info'
                     })
                     ->label('Статус'),
                 Tables\Columns\TextColumn::make('arrival_date')

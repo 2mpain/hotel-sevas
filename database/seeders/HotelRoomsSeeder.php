@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Customer;
-use DB;
+use App\Enums\HotelRooms\HotelRoomStatusEnum;
+use App\Models\HotelRoom;
 use Illuminate\Database\Seeder;
-use Exception;
 
 class HotelRoomsSeeder extends Seeder
 {
@@ -14,58 +13,40 @@ class HotelRoomsSeeder extends Seeder
      */
     public function run(): void
     {
-        $roomsData = [
-            [
-                'room_type_id' => 1,
-                'floor' => 2,
-                'room_number' => 10,
-                'square' => 35,
-                'occupied' => true,
-                'booker_name' => 'Станислав',
-                'occupants' => 2,
-                'customer_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'room_type_id' => 2,
-                'floor' => 3,
-                'room_number' => 11,
-                'square' => 42,
-                'booker_name' => 'Дэнчик',
-                'occupied' => true,
-                'occupants' => 3,
-                'customer_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'room_type_id' => 3,
-                'floor' => 2,
-                'room_number' => 12,
-                'booker_name' => 'Мария',
-                'square' => 29,
-                'occupied' => false,
-                'occupants' => 0,
-                'customer_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ];
+        // $query = HotelRoom::query();
+        // $query->insert([
+        //     [
+        //         'room_type_id' => 1,
+        //         'floor' => 2,
+        //         'number' => 10,
+        //         'status' => HotelRoomStatusEnum::STATUS_OCCUPIED,
+        //         'occupants' => 2,
+        //         'customer_id' => 1,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        //     [
+        //         'room_type_id' => 2,
+        //         'floor' => 3,
+        //         'number' => 11,
+        //         'status' => HotelRoomStatusEnum::STATUS_OCCUPIED,
+        //         'occupants' => 3,
+        //         'customer_id' => 2,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        //     [
+        //         'room_type_id' => 3,
+        //         'floor' => 2,
+        //         'number' => 12,
+        //         'status' => HotelRoomStatusEnum::STATUS_ON_CLEANING,
+        //         'occupants' => 0,
+        //         'customer_id' => 3,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        // ]);
 
-        try {
-            DB::table('hotel_rooms')->insert($roomsData);
-            foreach ($roomsData as $room) {
-                $customer = Customer::where('first_name', $room['booker_name'])->first();
-                if ($customer) {
-                    $customer->room_number = $room['room_number'];
-                    $customer->save();
-                }
-            }
-            
-        } catch (Exception $e) {
-            \Log::info($e);
-        }
-
+        HotelRoom::factory()->count(40)->create();
     }
 }

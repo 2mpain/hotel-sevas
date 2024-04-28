@@ -15,6 +15,10 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
     {
         $query = Feedback::query();
 
+        if (isset($filters['id'])) {
+            $query->where(['id' => $filters['id']]);
+        }
+
         if (isset($filters['name'])) {
             $query->where('name', 'like', "%{$filters['name']}%");
         }
@@ -64,8 +68,17 @@ class FeedbacksRepository implements FeedbacksRepositoryInterface
         $feedbacks = $query->get()->toArray();
 
         return [
-            'feedbacks' => $feedbacks,
+            'total'     =>  $this->getFeedbacksCount(),
+            'feedbacks' =>  $feedbacks,
         ];
+    }
+
+    /**
+     * @return int
+     */
+    #[\Override] public function getFeedbacksCount(): int
+    {
+        return Feedback::count();
     }
 
     /**

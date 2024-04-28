@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Database\Factories\CustomerFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -201,7 +200,7 @@ class Customer extends Model
     }
 
     /**
-     * @param int $roomNumber 
+     * @param int $roomNumber
      * @return self
      */
     public function setRoomNumber(int $roomNumber): self
@@ -211,10 +210,23 @@ class Customer extends Model
     }
 
     /**
+     * Relationships
+     */
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function statusName(): BelongsTo
+    {
+        return $this->belongsTo(CustomerStatus::class, 'status');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function room(): BelongsTo
     {
         return $this->belongsTo(HotelRoom::class, 'room_number');
     }
+
 }

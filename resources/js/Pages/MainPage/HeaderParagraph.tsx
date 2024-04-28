@@ -30,9 +30,7 @@ export function HeaderParagraph({ showCalendar }: HeaderParagraphProps) {
     return (
         <>
             <header className="header__main">
-                <motion.div
-                    custom={3}
-                    variants={animate(0, 100)}
+                <div
                     //className="section__container header__container"
                 >
                     <h1 className="mb-8 scroll-m-20 text-4xl md:text-8xl font-extrabold tracking-tight text-white text-center">
@@ -40,9 +38,7 @@ export function HeaderParagraph({ showCalendar }: HeaderParagraphProps) {
                         <br />
                         для Вашего отдыха
                     </h1>
-                    <motion.div
-                        custom={4}
-                        variants={animate(0, 100)}
+                    <div
                         className="flex justify-center my-15"
                     >
                         <div className="flex flex-col justify-center items-center text-center w-full">
@@ -64,8 +60,8 @@ export function HeaderParagraph({ showCalendar }: HeaderParagraphProps) {
                                 } my-2 text-black dark:bg-black dark:text-white`}
                             />
                         </div>
-                    </motion.div>
-                </motion.div>
+                    </div>
+                </div>
             </header>
 
             {/* showing Alert if user clicked on rent */}

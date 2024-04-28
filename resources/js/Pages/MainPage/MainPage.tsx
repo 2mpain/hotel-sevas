@@ -60,9 +60,7 @@ export function MainPage() {
         <>
             <Head title="Главная" />
             <MainHeader />
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
+            <div
                 className="flex flex-col  ml-2 mr-2 justify-center items-center "
             >
                 {/* hotel image w/ title, rent button & calendar */}
@@ -100,7 +98,7 @@ export function MainPage() {
                         icon={alertData.icon}
                     />
                 )}
-            </motion.div>
+            </div>
         </>
     );
 }

@@ -11,55 +11,32 @@ interface CardProps {
 export function Cards({ onSubmit }: CardProps) {
     return (
         <>
-            <motion.div
+            <div
                 id="rooms"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ amount: 0.2 }}
-                custom={1}
-                variants={animate(0, 60)}
                 className="my-10"
             >
                 <h1 className="mt-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl shadow-sm">
                     Наши номера
                 </h1>
-            </motion.div>
-            <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-1">
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
                 {cardsData.map((card, index) => (
                     <div
                         className="card bg-gray-50 dark:bg-slate-900 hover:bg-gray-100 dark:hover:bg-gray-950 dark:hover:text-black "
                         key={index}
                     >
-                        <motion.img
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ amount: 0.2 }}
-                            custom={index}
-                            variants={
-                                index % 2 == 0
-                                    ? animate(-100, 0)
-                                    : animate(100, 0)
-                            }
+                        <img
                             src={card.image}
                             alt={card.title}
                             className="image rounded-sm md:w-150 w-full"
                         />
-                        <motion.div
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ amount: 0.2 }}
-                            custom={index}
-                            variants={
-                                index % 2 == 0
-                                    ? animate(-100, 0)
-                                    : animate(100, 0)
-                            }
+                        <div
                             className="title dark:text-white"
                         >
                             <h2 className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight first:mt-0 shadow-sm">
                                 {card.title}
                             </h2>
-                        </motion.div>
+                        </div>
                         <div className="description dark:text-white">
                             <p className="leading-7 [&:not(:first-child)]:mt-6 my-2">
                                 {card.description}
@@ -97,7 +74,7 @@ export function Cards({ onSubmit }: CardProps) {
                         <CustomDialog onFormSubmit={onSubmit} />
                     </div>
                 ))}
-            </motion.div>
+            </div>
         </>
     );
 }

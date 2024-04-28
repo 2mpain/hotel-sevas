@@ -1,33 +1,21 @@
 import { Header } from "@/Components/Header";
-import { motion } from "framer-motion";
+import { } from "framer-motion";
 import { animate } from "../../../utils/animate";
 import { authors } from "./data";
 
 export function UsersFeedback() {
     return (
         <>
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                //animate="visible"
-                viewport={{ amount: 0.2 }}
-                custom={1}
-                variants={animate(-100, 0)}
+            <div
                 className="flex justify-center items-center py-8"
             >
                 <Header title="Отзывы наших клиентов" id="feedbacks" />
-            </motion.div>
+            </div>
 
             <div className="grid mb-8  rounded-lg shadow-lg md:mb-12 md:grid-cols-2">
                 {authors.map((item, index) => (
-                    <motion.figure
+                    <figure
                         key={index}
-                        initial="hidden"
-                        // animate="visible"
-                        variants={animate(0, -80)}
-                        transition={{ delay: index * 0.6 }}
-                        whileInView="visible"
-                        custom={index}
                         className="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-r border-gray-200 rounded-md dark:bg-slate-900 dark:border-gray-700"
                     >
                         <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
@@ -49,7 +37,7 @@ export function UsersFeedback() {
                                 </div>
                             </div>
                         </figcaption>
-                    </motion.figure>
+                    </figure>
                 ))}
             </div>
         </>

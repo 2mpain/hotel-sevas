@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('email')->unique();
             $table->string('phoneNumber', 12)->unique();
-            $table->enum('status', ['left_a_request', 'active', 'inactive'])->default('left_a_request');
+            $table->unsignedInteger('status');
+            $table->foreign('status')->references('id')->on('customer_statuses');
             $table->unsignedInteger('feedbacks_count')->default(0);
             $table->date('arrival_date')->nullable();
             $table->date('departure_date')->nullable();

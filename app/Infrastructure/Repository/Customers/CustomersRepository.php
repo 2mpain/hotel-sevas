@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Repository\Customers;
 
+use App\Enums\Customers\CustomersStatusEnum;
 use App\Models\Customer;
 use Carbon\Carbon;
 
@@ -94,9 +95,9 @@ class CustomersRepository implements CustomersRepositoryInterface
      */
     #[\Override] public function getCustomersStatusData(): array
     {
-        $activeCustomersCount = Customer::where('status', 'active')->count();
-        $inactiveCustomersCount = Customer::where('status', 'inactive')->count();
-        $leftARequestCustomersCount = Customer::where('status', 'left_a_request')->count();
+        $activeCustomersCount = Customer::where('status', CustomersStatusEnum::STATUS_ACTIVE)->count();
+        $inactiveCustomersCount = Customer::where('status', CustomersStatusEnum::STATUS_INACTIVE)->count();
+        $leftARequestCustomersCount = Customer::where('status', CustomersStatusEnum::STATUS_LEFT_A_REQUEST)->count();
 
         return [
             'activeCustomersCount' => $activeCustomersCount,

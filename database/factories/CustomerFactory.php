@@ -30,11 +30,7 @@ class CustomerFactory extends Factory
             'middle_name' => $faker->middleName(),
             'email' => fake()->unique()->safeEmail(),
             'phoneNumber' => '+7978' . fake()->unique()->numerify('#######'),
-            'status' => fake()->randomElement([
-                'left_a_request',
-                'active',
-                'inactive',
-            ]),
+            'status' => fake()->numberBetween(1, 3),
             'arrival_date' => $arrivalDate,
             'departure_date' => $departureDate,
         ];

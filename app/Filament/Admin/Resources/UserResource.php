@@ -36,7 +36,7 @@ class UserResource extends Resource
                     ->description('Поле Номер телефона необязательно.')
                     ->schema([
                         Forms\Components\TextInput::make('email')->email()->required()->label('Эл.почта'),
-                        Forms\Components\TextInput::make('phoneNumber')->tel()->label('Номер телефона'),
+                        Forms\Components\TextInput::make('phoneNumber')->length(12)->tel()->label('Номер телефона'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Аутентификация и роль')

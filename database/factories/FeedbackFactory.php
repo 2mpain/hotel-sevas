@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Customer;
+use Carbon\Carbon;
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,6 +25,7 @@ class FeedbackFactory extends Factory
             'name' => $faker->firstName(),
             'email' => $faker->unique()->safeEmail(),
             'message' => fake()->unique()->text(),
+            'created_at' => $faker->dateTimeBetween(Carbon::now()->subWeeks(4), Carbon::now()),
         ];
     }
 }

@@ -73,7 +73,7 @@ export default function DrawerComp() {
 
     return (
         <Box sx={{}}>
-            <Button size="icon" className="my-2">
+            <Button size="icon" className={`my-2 ${theme === 'system' && "bg-transparent"}`}>
                 <Menu
                     className={`burger ${
                         theme === "dark" ? "dark-burger" : ""

@@ -9,7 +9,7 @@ use Flowframe\Trend\TrendValue;
 
 class CustomersAdminChart extends ChartWidget
 {
-    protected static ?string $heading = 'Новые клиенты';
+    protected static ?string $heading = 'Клиенты';
 
     protected static string $color = 'info';
 

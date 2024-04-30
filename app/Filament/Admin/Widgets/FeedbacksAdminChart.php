@@ -24,9 +24,13 @@ class FeedbacksAdminChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Отзывы',
+                    'label' => 'Все',
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
+                [
+                    'label' => 'Отзывы клиентов',
+                    'data' => $data->where('customer_id')->map(fn (TrendValue $value) => $value->aggregate)
+                ]
             ],
             'labels' => $data->map(fn (TrendValue $value) => $value->date),
         ];

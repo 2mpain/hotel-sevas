@@ -16,6 +16,8 @@ use Flowframe\Trend\TrendValue;
 class StatsAdminOverview extends BaseWidget
 {
 
+    protected static ?int $sort = 1;
+
     protected function getStats(): array
     {
         $usersCount = app(UserSettingsGettingService::class)->getUsersCount();

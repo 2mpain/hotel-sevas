@@ -17,5 +17,10 @@ class CustomersGettingService
 
         return $customers;
     }
+
+    public function getCustomersCount(): int
+    {
+        return $this->customersRepository->getCustomersCount();
+    }
 }
 

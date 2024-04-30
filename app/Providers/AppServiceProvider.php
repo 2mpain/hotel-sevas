@@ -10,6 +10,8 @@ use App\Infrastructure\Repository\Customers\CustomersRepository;
 use App\Infrastructure\Repository\Customers\CustomersRepositoryInterface;
 use App\Infrastructure\Repository\Feedbacks\FeedbacksRepository;
 use App\Infrastructure\Repository\Feedbacks\FeedbacksRepositoryInterface;
+use App\Infrastructure\Repository\Users\UsersRepository;
+use App\Infrastructure\Repository\Users\UsersRepositoryInterface;
 use App\Models\Feedback;
 use App\Observers\FeedbackObserver;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CustomerSettingsMutatorInterface::class, CustomerSettingsMutator::class);
         $this->app->bind(FeedbacksRepositoryInterface::class, FeedbacksRepository::class);
         $this->app->bind(FeedbackSettingsMutatorInterface::class, FeedbackSettingsMutator::class);
+        $this->app->bind(UsersRepositoryInterface::class, UsersRepository::class);
     }
 
     /**

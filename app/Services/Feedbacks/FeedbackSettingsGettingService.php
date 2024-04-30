@@ -31,5 +31,13 @@ class FeedbackSettingsGettingService
     {
         return $this->feedbacksRepository->getFeedbackById($feedbackId);
     }
+
+    /**
+     * @return int
+     */
+    public function getCount(): int
+    {
+        return $this->feedbacksRepository->getFeedbacksCount();
+    }
 }
 

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         (new HotelRoomsSeeder())->run();
         (new FeedbackSeeder())->run();
 
-        Customer::factory()->count(10)->create();
-        Feedback::factory()->count(10)->create();
+        Customer::factory()->count(200)->create();
+        Feedback::factory()->count(300)->create();
     }
 }

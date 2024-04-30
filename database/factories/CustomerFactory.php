@@ -33,6 +33,7 @@ class CustomerFactory extends Factory
             'status' => fake()->numberBetween(1, 3),
             'arrival_date' => $arrivalDate,
             'departure_date' => $departureDate,
+            'created_at' => $faker->dateTimeBetween(Carbon::now()->subWeeks(4), Carbon::now()),
         ];
     }
 }

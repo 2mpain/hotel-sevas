@@ -167,7 +167,7 @@ class Customer extends Model
      * @param string $arrivalDate
      * @return self
      */
-    public function setArrivalDate(string $arrivalDate): self
+    public function setArrivalDate(?string $arrivalDate): self
     {
         $this->arrival_date = $arrivalDate;
         return $this;
@@ -185,7 +185,7 @@ class Customer extends Model
      * @param string $departureDate
      * @return self
      */
-    public function setDepartureDate(string $departureDate): self
+    public function setDepartureDate(?string $departureDate): self
     {
         $this->departure_date = $departureDate;
         return $this;

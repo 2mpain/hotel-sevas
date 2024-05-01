@@ -15,6 +15,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class HotelRoomsResource extends Resource
 {
@@ -127,6 +129,12 @@ class HotelRoomsResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')
+                        ->askForFilename('Номера отеля', 'Название файла')
+                        ->askForWriterType(\Maatwebsite\Excel\Excel::XLSX, null, 'Тип')
+                        ->fromTable(),
+                ])->label('Экспорт')->color('info'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

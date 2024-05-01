@@ -10,7 +10,7 @@ use Flowframe\Trend\TrendValue;
 
 class FeedbacksAdminChart extends ChartWidget
 {
-    protected static ?string $heading = 'Отзывы';
+    protected static ?string $heading = 'Отзывы за последние 2 недели';
 
     protected static ?int $sort = 3;
 
@@ -18,8 +18,8 @@ class FeedbacksAdminChart extends ChartWidget
     {
         $data = Trend::model(Feedback::class)
         ->between(
-            start: now()->startOfMonth(),
-            end: now()->endOfMonth(),
+            start: now()->startOfWeek()->subWeek(2),
+            end: now(),
         )
         ->perDay()
         ->count();
@@ -27,7 +27,7 @@ class FeedbacksAdminChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Все',
+                    'label' => 'Отзывы',
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],

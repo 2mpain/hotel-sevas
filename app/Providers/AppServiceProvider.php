@@ -12,7 +12,9 @@ use App\Infrastructure\Repository\Feedbacks\FeedbacksRepository;
 use App\Infrastructure\Repository\Feedbacks\FeedbacksRepositoryInterface;
 use App\Infrastructure\Repository\Users\UsersRepository;
 use App\Infrastructure\Repository\Users\UsersRepositoryInterface;
+use App\Models\Customer;
 use App\Models\Feedback;
+use App\Observers\CustomerObserver;
 use App\Observers\FeedbackObserver;
 use Illuminate\Support\ServiceProvider;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
@@ -42,5 +44,6 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Feedback::observe(FeedbackObserver::class);
+        Customer::observe(CustomerObserver::class);
     }
 }

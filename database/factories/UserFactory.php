@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'role' => fake()->randomElement(['admin', 'user']),
             'remember_token' => Str::random(10),
-            'created_at' => $faker->dateTimeBetween(Carbon::now()->subWeeks(4), Carbon::now()),
+            'created_at' => $faker->dateTimeBetween(Carbon::now()->subWeeks(3), Carbon::now()),
         ];
     }
 

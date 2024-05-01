@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Customers\CustomersStatusEnum;
 use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -21,11 +22,11 @@ class CustomerSeeder extends Seeder
                 'middle_name' => 'Скайзович',
                 'email' => 'stas123@yandex.ru',
                 'phoneNumber' => '+79787854321',
-                'status' => 1,
+                'status' => CustomersStatusEnum::STATUS_ACTIVE,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'arrival_date' => Carbon::createFromFormat('Y-m-d', '2024-04-24'),
-                'departure_date' => Carbon::createFromFormat('Y-m-d', '2024-05-12'),
+                'departure_date' => Carbon::now()->addDays(4),
                 'feedbacks_count' => 1,
             ],
             [
@@ -34,11 +35,11 @@ class CustomerSeeder extends Seeder
                 'middle_name' => 'Рофланович',
                 'email' => 'danik123@mail.ru',
                 'phoneNumber' => '+79787855555',
-                'status' => 1,
+                'status' => CustomersStatusEnum::STATUS_ACTIVE,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'arrival_date' => Carbon::createFromFormat('Y-m-d', '2024-04-14'),
-                'departure_date' => Carbon::createFromFormat('Y-m-d', '2024-04-26'),
+                'departure_date' => Carbon::now()->addDays(5),
                 'feedbacks_count' => 1,
             ],
             [
@@ -47,11 +48,11 @@ class CustomerSeeder extends Seeder
                 'middle_name' => 'Мариевна',
                 'email' => 'avemaria@gmail.com',
                 'phoneNumber' => '+79787843247',
-                'status' => 1,
+                'status' => CustomersStatusEnum::STATUS_ACTIVE,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'arrival_date' => Carbon::createFromFormat('Y-m-d', '2024-04-13'),
-                'departure_date' => Carbon::createFromFormat('Y-m-d', '2024-04-31'),
+                'departure_date' => Carbon::now()->addDays(6),
                 'feedbacks_count' => 1,
             ],
         ]);

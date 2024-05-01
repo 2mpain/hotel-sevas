@@ -58,11 +58,11 @@ export function HeaderParagraph({ showCalendar }: HeaderParagraphProps) {
                                 Забронировать номер
                             </Button>
 
-                            <DatePickerWithRange
+                            {/* <DatePickerWithRange
                                 className={`${
                                     isShowCalendar ? "opacity-1" : "opacity-0"
                                 } my-2 text-black dark:bg-black dark:text-white`}
-                            />
+                            /> */}
                         </div>
                     </motion.div>
                 </motion.div>

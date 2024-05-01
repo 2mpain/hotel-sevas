@@ -19,7 +19,7 @@ class HotelRoomTypesSeeder extends Seeder
 
     private $RO0M_IMAGE_LINKS = [
         'Эконом' =>
-        'https://www.palladaran.ru/uploads/images/ekonom-nomer.jpg',
+        'https://sun9-77.userapi.com/impg/TSaJANsM5oqW-vEdAqc9mCaUTsQztLF9PhLjsA/uSYp_HUHoPE.jpg?size=480x320&quality=96&sign=543701086a68d2e99a0b51a10f5658c7&type=album',
         'Стандарт' =>
         'https://hotelnogai.ru/wp-content/uploads/2016/02/%D0%A1%D1%82%D0%B0%D0%BD%D0%B4_%D0%9A%D0%B8%D0%BD%D0%B3_1-1620x1080.jpg',
         'Люкс' =>

@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class UserResource extends Resource
 {
@@ -105,6 +107,12 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Просмотр'),
                 Tables\Actions\EditAction::make()->label('Редакт.'),
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')
+                        ->askForFilename('Пользователи сайта', 'Название файла')
+                        ->askForWriterType(\Maatwebsite\Excel\Excel::XLSX, null, 'Тип')
+                        ->fromTable(),
+                ])->label('Экспорт')->color('info'),
                 //Tables\Actions\DeleteAction::make()->label('Удалить'),
             ])
             ->bulkActions([

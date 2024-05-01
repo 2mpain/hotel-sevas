@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class CustomerResource extends Resource
 {
@@ -108,7 +110,7 @@ class CustomerResource extends Resource
                 Tables\Columns\TextColumn::make('statusName.name')
                     ->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'Выселился' => 'danger',
                         'Проживает' => 'primary',
                         'Оставил заявку' => 'success',
@@ -142,6 +144,12 @@ class CustomerResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Просмотр'),
                 Tables\Actions\EditAction::make()->label('Редакт.'),
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')
+                        ->askForFilename('Клиенты', 'Название файла')
+                        ->askForWriterType(\Maatwebsite\Excel\Excel::XLSX, null, 'Тип')
+                        ->fromTable(),
+                ])->label('Экспорт')->color('info'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

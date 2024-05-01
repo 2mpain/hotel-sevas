@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class FeedbacksResource extends Resource
 {
@@ -98,6 +100,12 @@ class FeedbacksResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')
+                        ->askForFilename('Отзывы', 'Название файла')
+                        ->askForWriterType(\Maatwebsite\Excel\Excel::XLSX, null, 'Тип')
+                        ->fromTable(),
+                ])->label('Экспорт')->color('info'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

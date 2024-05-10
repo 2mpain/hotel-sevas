@@ -62,7 +62,7 @@ h1 {
 .header__main {
     width: 100%;
     padding-block: 5rem;
-    background-image: linear-gradient( rgba(15, 26, 44, 0.5), rgba(15, 26, 44, 0.5)), url("/storage/app/public/assets/background/gostin.jpg");
+    background-image: linear-gradient( rgba(15, 26, 44, 0.5), rgba(15, 26, 44, 0.5)), url("images/gostin.jpg");
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
